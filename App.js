@@ -1,12 +1,19 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Register from './pages/Register';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import Landing from "./screens/Landing";
+import { View } from 'react-native';
 
-export default function App() {
+import Tabs from "./navigation/tabs";
+import Post from './components/Post';
+
+const App = () => {
   return (
-    <View>
-      <Register />
-    </View>
+    <NavigationContainer>
+      <View className='flex-1'>
+        <Tabs />
+      </View>
+    </NavigationContainer>
   );
 }
 
+export default App;
