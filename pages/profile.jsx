@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions, FlatList, Pressable, Image } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, FlatList, Pressable, Image, SafeAreaView } from 'react-native';
 import { useEffect, useState } from 'react';
 import wishlistIcon from '../assets/favourite.png';
 
@@ -251,6 +251,7 @@ const Profile = () => {
 
     return (
         <View>
+            <SafeAreaView />
             <View style={styles.topBar}>
                 <Text style={styles.topBarText}>Tal Ben Ari</Text>
                 <Image
