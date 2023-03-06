@@ -1,12 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Register from './pages/Register';
+import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import Profile from './pages/profile';
+
 
 export default function App() {
+
+
+  const styles = StyleSheet.create({
+    app: {
+
+    }
+  })
+
   return (
-    <View>
-      <Register />
-    </View>
+    <View style={styles.app}>
+      <StatusBar style="auto" />
+      <SafeAreaView/>
+      <Profile />
+    </View >
   );
 }
 
