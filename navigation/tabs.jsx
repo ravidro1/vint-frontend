@@ -10,6 +10,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import Post from "../components/Post";
 import Search from "../screens/Search";
+import Profile from "../pages/profile";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +23,7 @@ function Tabs() {
                 height: 100
             }
         }}>
-            <Tab.Screen name="Search" component={Search} options={{
+            <Tab.Screen name="Search" component={Profile} options={{
                 tabBarIcon: ({ color, size }) => (
                     <View className='flex justify-center items-center'>
                         <FontAwesome name="search" size={40} color="black" />
