@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import axios from 'axios';
+import {REACT_APP_BACKEND_URL} from '@env'
 
 function Login() {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const handleSubmit = async () => {
         try {
-            const res = await axios.post(`http://localhost:${process.env.BACKENDURL}/login`, {userName: userName, password: password});
-            console.log(res);
+            const env = REACT_APP_BACKEND_URL;
+            console.log(env)
+            const res = await axios.post(`http://192.168.50.83:8081/api/v1/user/login`, {username: userName, password: password});
+            console.log(res.data);
         } catch (error) {
             console.log(error);
         }
