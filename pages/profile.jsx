@@ -250,7 +250,7 @@ const Profile = () => {
     }
 
     return (
-        <View>
+        <View style={{height: Dimensions.get('window').height-100}}>
             <SafeAreaView />
             <View style={styles.topBar}>
                 <Text style={styles.topBarText}>Tal Ben Ari</Text>

@@ -1,16 +1,20 @@
 import { Dimensions, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
-import React from "react";
+import { useState } from "react";
 
 import { EvilIcons } from '@expo/vector-icons';
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
-export default function Search(props) {
+export default function Search() {
+    const nav = useNavigation()
+    const [search, setSearch] = useState('');    
     return (
         <View style={{ flex: 1, height: Dimensions.get('window').height - 100 }} className='bg-white'>
             <SafeAreaView />
-            <View className='absolute top-0 h-40 w-full p-7 flex justify-end items-center bg-blue-500'>
+            <View className='absolute top-0 h-40 w-full p-7 flex flex-row justify-center items-end bg-blue-500'>
                 <View className='flex flex-row justify-start items-center w-5/6 h-11 rounded-md bg-slate-200 p-2 overflow-scroll'>
                     <EvilIcons name="search" size={18} color="gray" />
-                    <TextInput placeholder="Search" className=" flex content-center w-full overflow-hidden " />
+                    <TextInput onChangeText={(value) => setSearch(value)} placeholder="Search" className=" flex content-center w-full overflow-hidden " />
                 </View>
             </View>
         </View>
