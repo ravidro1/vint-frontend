@@ -14,6 +14,7 @@ import Search from "../screens/Search";
 import Profile from "../pages/profile";
 import Details from "../screens/Details";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import MyProfile from "../pages/MyProfile";
 
 
 
@@ -41,8 +42,9 @@ const FeedStack = () => {
 const HomeStack = () => {
     return (
         <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="Feed" component={FeedStack} />
+            <Stack.Screen name="Feeds" component={FeedStack} />
             <Stack.Screen name="Details" component={Details} />
+            <Stack.Screen name="Profile" component={Profile} />
         </Stack.Navigator>
     )
 }
@@ -73,7 +75,7 @@ function Tabs() {
                     </View>
                 )
             }} />
-            <Tab.Screen name="Landing" component={Profile} options={{
+            <Tab.Screen name="Landing" component={Landing} options={{
                 tabBarIcon: ({ color, size }) => (
                     <View className='flex justify-center items-center'>
                         <FontAwesome name="plus-square" size={35} color={color} />
@@ -87,7 +89,7 @@ function Tabs() {
                     </View>
                 )
             }} />
-            <Tab.Screen name="Profile" component={Profile} options={{
+            <Tab.Screen name="Profile" component={MyProfile} options={{
                 tabBarIcon: ({ color, size }) => (
                     <View className='flex justify-center items-center'>
                         <FontAwesome name="user-circle-o" size={35} color={color} />
