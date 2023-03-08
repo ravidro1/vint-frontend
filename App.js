@@ -5,6 +5,9 @@ import Landing from "./screens/Landing";
 import { View } from 'react-native';
 import Tabs from "./navigation/tabs";
 import Post from './components/Post';
+import Profile from './pages/profile';
+import Wishlist from './pages/Wishlist';
+
 
 function App() {
   return (

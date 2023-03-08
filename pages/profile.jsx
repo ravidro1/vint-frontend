@@ -1,11 +1,20 @@
-import { View, Text, StyleSheet, Dimensions, FlatList, Pressable, Image, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, FlatList, Pressable, Image, SafeAreaView, TouchableHighlight } from 'react-native';
 import { useEffect, useState } from 'react';
 import wishlistIcon from '../assets/favourite.png';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import Wishlist from './Wishlist';
+import * as Animatable from 'react-native-animatable';
 
-const Profile = () => {
+
+const Stack = createNativeStackNavigator();
+
+const Profile = (props) => {
 
     const [profile, setProfile] = useState('For Sale');
+    const [postAnimation, setPostAnimation] = useState('');
 
+    const navigation = useNavigation();
 
     const posts = [
         {
@@ -77,7 +86,7 @@ const Profile = () => {
     const styles = StyleSheet.create({
         topBar: {
             height: 75,
-            width: '100%',
+            width: Dimensions.get('screen').width + 35,
             backgroundColor: '#000000',
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -93,9 +102,16 @@ const Profile = () => {
             fontSize: 24,
             fontWeight: 'bold',
         },
-        wishlist: {
+        touchableHighlight: {
             height: '80%',
-            width: '12%'
+            width: '30%',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+        },
+        wishlist: {
+            flex: 1,
+            height: '40%',
+            width: '40%',
         },
         profileDetails: {
             height: 270,
@@ -137,7 +153,6 @@ const Profile = () => {
             height: '60%',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: '#000000'
         },
         post: {
             flex: 1,
@@ -242,10 +257,12 @@ const Profile = () => {
             )
         }
         return (
-            <View key={index} style={styles.post}>
-                <Text style={{ color: 'white' }}>{item.productName}</Text>
-                <Text style={{ color: 'white' }}>{item.price}</Text>
-            </View>
+            // <TouchableHighlight>
+                <Animatable.View key={index} style={styles.post} postAnimation>
+                    <Text style={{ color: 'white' }}>{item.productName}</Text>
+                    <Text style={{ color: 'white' }}>{item.price}</Text>
+                </Animatable.View>
+            // {/* </TouchableHighlight> */}
         )
     }
 
@@ -254,10 +271,12 @@ const Profile = () => {
             <SafeAreaView />
             <View style={styles.topBar}>
                 <Text style={styles.topBarText}>Tal Ben Ari</Text>
-                <Image
-                    style={styles.wishlist}
-                    source={wishlistIcon}
-                    alt='wish list' />
+                <TouchableHighlight style={styles.touchableHighlight} onPress={() => navigation.navigate("wishlist")}>
+                    <Image
+                        style={styles.wishlist}
+                        source={wishlistIcon}
+                        alt='wish-list' />
+                </TouchableHighlight>
             </View>
             <View style={styles.profileDetails}>
                 <View style={styles.profileDetailsTop}>
@@ -294,7 +313,6 @@ const Profile = () => {
                             <Text style={styles.profileDetailsBottomText}>History</Text>
                         </View>
                     </Pressable>
-
                 </View>
             </View>
             <FlatList
@@ -303,8 +321,6 @@ const Profile = () => {
                 renderItem={renderItem}
                 numColumns='3'
             >
-                <View>
-                </View>
             </FlatList>
         </View>
     )
