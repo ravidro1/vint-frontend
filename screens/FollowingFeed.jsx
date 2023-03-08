@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function FollowingFeed() {
     const navigation = useNavigation();
-    const array = [{
+    const followingArray = [{
         img: "https://images.pexels.com/photos/1232459/pexels-photo-1232459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
         seller: 'Roy Rutzky',
         size: 'XL',
@@ -38,7 +38,7 @@ export default function FollowingFeed() {
         return (
             <View key={index} style={{ flex: 1, height: Dimensions.get('window').height - 200 }}>
                 <Post
-                    post={array[index]}
+                    post={followingArray[index]}
                     navigation={navigation}
                 />
             </View>
@@ -47,10 +47,10 @@ export default function FollowingFeed() {
     return (
         <View className='flex-1'>
             <FlatList
-                data={array}
+                data={followingArray}
                 renderItem={renderItems}
                 pagingEnabled
-                keyExtractor={item => item.key}
+                keyExtractor={item => followingArray.indexOf(item)}
                 decelerationRate='fast'
             />
         </View>

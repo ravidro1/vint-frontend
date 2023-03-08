@@ -54,10 +54,9 @@ export default function Feed() {
                 data={array}
                 renderItem={renderItems}
                 pagingEnabled
-                keyExtractor={item => item.key}
+                keyExtractor={item => array.indexOf(item)}
                 decelerationRate='fast'
             />
-            {/* <View className='absolute top-0 h-16 w-full bg-black/60' /> */}
         </View>
     );
 }

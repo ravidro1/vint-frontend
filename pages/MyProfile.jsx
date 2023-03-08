@@ -8,12 +8,11 @@ import Wishlist from './Wishlist';
 
 const Stack = createNativeStackNavigator();
 
-const Profile = ({route, navigation}) => {
-    const { post } = route.params
+const MyProfile = () => {
     const [profile, setProfile] = useState('For Sale');
     const [postAnimation, setPostAnimation] = useState('');
 
-    const posts = [ 
+    const posts = [
         {
             productName: 't-shirt',
             price: '99$'
@@ -254,19 +253,19 @@ const Profile = ({route, navigation}) => {
             )
         }
         return (
-                <View key={index} style={styles.post} postAnimation>
-                    <Text style={{ color: 'white' }}>{item.productName}</Text>
-                    <Text style={{ color: 'white' }}>{item.price}</Text>
-                </View>
+            <View key={index} style={styles.post} postAnimation>
+                <Text style={{ color: 'white' }}>{item.productName}</Text>
+                <Text style={{ color: 'white' }}>{item.price}</Text>
+            </View>
         )
     }
 
     return (
-        <View style={{height: Dimensions.get('window').height-100}}>
+        <View style={{ height: Dimensions.get('window').height - 100 }}>
             <SafeAreaView />
             <View style={styles.topBar}>
-                
-                <Text style={styles.topBarText}>{post.seller}</Text>
+
+                <Text style={styles.topBarText}>UserName</Text>
             </View>
             <View style={styles.profileDetails}>
                 <View style={styles.profileDetailsTop}>
@@ -316,4 +315,4 @@ const Profile = ({route, navigation}) => {
     )
 }
 
-export default Profile
+export default MyProfile
