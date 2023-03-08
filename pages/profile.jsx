@@ -4,7 +4,6 @@ import wishlistIcon from '../assets/favourite.png';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import Wishlist from './Wishlist';
-import * as Animatable from 'react-native-animatable';
 
 
 const Stack = createNativeStackNavigator();
