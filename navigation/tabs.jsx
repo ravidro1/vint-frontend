@@ -15,6 +15,8 @@ import Profile from "../pages/profile";
 import Details from "../screens/Details";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
+
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const Feeds = createMaterialTopTabNavigator();
@@ -71,7 +73,7 @@ function Tabs() {
                     </View>
                 )
             }} />
-            <Tab.Screen name="Landing" component={Landing} options={{
+            <Tab.Screen name="Landing" component={Profile} options={{
                 tabBarIcon: ({ color, size }) => (
                     <View className='flex justify-center items-center'>
                         <FontAwesome name="plus-square" size={35} color={color} />
