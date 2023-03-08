@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "vint.com-frontend",
-    "slug": "vint.com-frontend",
+    "slug": "vint_com-frontend",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
