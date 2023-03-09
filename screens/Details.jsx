@@ -41,7 +41,7 @@ export default function Details({ route, navigation }) {
                         <Text className='text-xl font-semibold text-black ml-2'>{post.price}</Text>
                     </View>
                 </View>
-                <ScrollView className='mb-5 h-[10vh] overflow-scroll'>
+                <ScrollView className='mb-5 h-[10vh]'>
                     <Text>{post.description}</Text>
                 </ScrollView>
             </View>
