@@ -3,6 +3,7 @@ import React from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import Feed from "../screens/Feed";
 import FollowingFeed from "../screens/FollowingFeed";
@@ -15,7 +16,7 @@ import Wishlist from "../pages/Wishlist";
 import NewPost from "../pages/NewPost";
 import Profile from "../pages/profile";
 import Details from "../screens/Details";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import MyProfile from "../pages/MyProfile";
 
 
 
@@ -42,10 +43,20 @@ const FeedStack = () => {
 
 const HomeStack = () => {
     return (
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="Feed" component={FeedStack} />
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Feeds" component={FeedStack} />
             <Stack.Screen name="Details" component={Details} />
+            <Stack.Screen name="Profile" component={Profile} />
         </Stack.Navigator>
+    )
+}
+
+const DrawerStack = () => {
+    return (
+        <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
+            <Drawer.Screen name="Search" component={Search} />
+            <Drawer.Screen name="Drawer" component={Drawer} />
+        </Drawer.Navigator>
     )
 }
 
@@ -85,11 +96,11 @@ function Tabs() {
             <Tab.Screen name="Post" component={Wishlist} options={{
                 tabBarIcon: ({ color, size }) => (
                     <View className='flex justify-center items-center'>
-                        <MaterialIcons name="favorite" size={35} color={color} />
+                        <MaterialIcons name="favorite" size={38} color={color} />
                     </View>
                 )
             }} />
-            <Tab.Screen name="Profile" component={Profile} options={{
+            <Tab.Screen name="Profile" component={MyProfile} options={{
                 tabBarIcon: ({ color, size }) => (
                     <View className='flex justify-center items-center'>
                         <FontAwesome name="user-circle-o" size={35} color={color} />

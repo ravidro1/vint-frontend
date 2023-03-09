@@ -9,7 +9,6 @@ import { Ionicons, FontAwesome5, Entypo } from '@expo/vector-icons';
 export default function Details({ route, navigation }) {
     const { post } = route.params
     const image = { uri: post.img }
-    console.log(image);
     post.images[0] !== post.img && post.images.unshift(post.img)
     return (
         <View style={{ flex: 1, height: Dimensions.get('window').height - 100 }} className='flex-1 justify-around items-center overflow-scroll bg-sky-100'>
@@ -21,10 +20,10 @@ export default function Details({ route, navigation }) {
                     ))}
                 </ScrollView>
             </View>
-            <Pressable onPress={() => navigation.goBack()} className='absolute  left-5 top-10'>
+            <Pressable onPress={() => navigation.goBack()} className='absolute  left-5 top-11'>
                 <Ionicons name="arrow-back-circle" size={40} color="black" />
             </Pressable>
-            <Pressable onPress={() => navigation.goBack()} className='absolute  right-5 top-10'>
+            <Pressable onPress={() => navigation.goBack()} className='absolute  right-5 top-11'>
                 <Ionicons name="chatbubble-ellipses" size={37} color="black" />
             </Pressable>
             <View className='w-[90vw]'>
@@ -42,7 +41,7 @@ export default function Details({ route, navigation }) {
                         <Text className='text-xl font-semibold text-black ml-2'>{post.price}</Text>
                     </View>
                 </View>
-                <ScrollView className='mb-5 h-[10vh] overflow-scroll'>
+                <ScrollView className='mb-5 h-[10vh]'>
                     <Text>{post.description}</Text>
                 </ScrollView>
             </View>

@@ -24,7 +24,10 @@ const Post = (props) => {
     return (
         <View style={{ flex: 1, height: Dimensions.get('window').height - 100 }} className='flex justify-center overflow-scroll border-b-2 border-b-black'>
             <Image source={image} resizeMode='cover' className='h-[100vh]' />
-            <View className='absolute w-1/6 h-1/4 bottom-5 right-2 bg-black/20 rounded-full flex justify-around items-center'>
+            <View className='absolute w-1/6 h-1/3 bottom-5 right-2 bg-black/20 rounded-full flex justify-around items-center'>
+                <TouchableOpacity onPress={() => navigation.navigate('Profile', { post: post })}>
+                    <FontAwesome name="user-circle" size={38} color="white" />
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Details', { post: post })}>
                     <Ionicons name="eye" size={40} color="white" />
                 </TouchableOpacity>
@@ -34,9 +37,6 @@ const Post = (props) => {
                 <TouchableOpacity onPress={() => navigation.navigate('')}>
                     <Ionicons name="chatbubble-ellipses" size={40} color="white" />
                 </TouchableOpacity>
-                {/* <TouchableOpacity onPress={() => navigation.navigate('')}>
-                    <MaterialIcons name="more-horiz" size={40} color="white" />
-                </TouchableOpacity> */}
             </View>
             <View className='absolute h-[7.5vh] w-[47%] bottom-5 left-2 flex-row bg-black/20 rounded-full flex justify-center items-center'>
                 <Entypo name="price-tag" size={30} color="white" />
