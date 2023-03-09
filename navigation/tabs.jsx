@@ -12,6 +12,8 @@ import Landing from "../screens/Landing";
 import { Ionicons, FontAwesome, Entypo, MaterialIcons } from '@expo/vector-icons';
 
 import Search from "../screens/Search";
+import Wishlist from "../pages/Wishlist";
+import NewPost from "../pages/NewPost";
 import Profile from "../pages/profile";
 import Details from "../screens/Details";
 import MyProfile from "../pages/MyProfile";
@@ -84,14 +86,14 @@ function Tabs() {
                     </View>
                 )
             }} />
-            <Tab.Screen name="Landing" component={Landing} options={{
+            <Tab.Screen name="Landing" component={NewPost} options={{
                 tabBarIcon: ({ color, size }) => (
                     <View className='flex justify-center items-center'>
                         <FontAwesome name="plus-square" size={35} color={color} />
                     </View>
                 )
             }} />
-            <Tab.Screen name="Post" component={Landing} options={{
+            <Tab.Screen name="Post" component={Wishlist} options={{
                 tabBarIcon: ({ color, size }) => (
                     <View className='flex justify-center items-center'>
                         <MaterialIcons name="favorite" size={38} color={color} />

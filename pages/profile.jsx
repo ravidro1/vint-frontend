@@ -262,7 +262,7 @@ const Profile = ({route, navigation}) => {
     }
 
     return (
-        <View style={{height: Dimensions.get('window').height-100}}>
+        <View style={{ height: Dimensions.get('window').height - 100 }}>
             <SafeAreaView />
             <View style={styles.topBar}>
                 
