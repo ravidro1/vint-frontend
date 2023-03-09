@@ -4,7 +4,6 @@ import wishlistIcon from '../assets/favourite.png';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import Wishlist from './Wishlist';
-import * as Animatable from 'react-native-animatable';
 
 
 const Stack = createNativeStackNavigator();
@@ -258,16 +257,16 @@ const Profile = (props) => {
         }
         return (
             // <TouchableHighlight>
-                <Animatable.View key={index} style={styles.post} postAnimation>
-                    <Text style={{ color: 'white' }}>{item.productName}</Text>
-                    <Text style={{ color: 'white' }}>{item.price}</Text>
-                </Animatable.View>
+            <View key={index} style={styles.post} postAnimation>
+                <Text style={{ color: 'white' }}>{item.productName}</Text>
+                <Text style={{ color: 'white' }}>{item.price}</Text>
+            </View>
             // {/* </TouchableHighlight> */}
         )
     }
 
     return (
-        <View style={{height: Dimensions.get('window').height-100}}>
+        <View style={{ height: Dimensions.get('window').height - 100 }}>
             <SafeAreaView />
             <View style={styles.topBar}>
                 <Text style={styles.topBarText}>Tal Ben Ari</Text>
