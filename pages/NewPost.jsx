@@ -1,118 +1,41 @@
 import React, { useState } from 'react'
-import { Alert, Dimensions, Image, Keyboard, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
+import { Alert, Dimensions, Image, Keyboard, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
 import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5, Entypo } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
+import * as ImageManipulator from 'expo-image-manipulator';
+
 
 const NewPost = () => {
 
+    const [imageUri, setImageUri] = useState(null);
     const [image, setImage] = useState(null);
     const [advanced, setAdvanced] = useState(false);
 
     const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
-        advancedFeaturesContainer: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#000000',
-            margin: 5,
-            padding: 10,
-            borderRadius: 8,
-            marginTop: 12,
-        },
-        advancedInputsContainer: {
-            backgroundColor: '#c9c9c9',
-            height: 400,
-            width: '100%',
-            justifyContent: 'flex-start',
-            alignItems: 'start',
-            paddingHorizontal: 20,
-        },
-        advancedFeatures: {
-            fontSize: 16,
-            color: 'white',
-        },
         header: {
-            flex: 0.6,
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: 100,
-            width: Dimensions.get('window').width,
-            marginTop: 60,
-            paddingBottom: 12
+            flex: 1,
         },
-        textContainer: {
-            height: '40%',
-            width: '100%',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
+        body: {
+            flex: 6,
+        },
+        photoArea: {
+            flex: 2,
+        },
+        inputsArea: {
+            flex: 1,
+        },
+        buttonArea: {
+            flex: 1,
         },
         iconContainer: {
-            height: '50%',
-            width: '100%',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-        },
-        sizeInput: {
-            width: 80,
-            height: 16,
-            borderBottomWidth: 1,
-            borderBottomColor: 'black',
-            borderRadius: 4,
-            margin: 12
-        },
-        priceInput: {
-            width: 80,
-            height: 16,
-            borderBottomWidth: 1,
-            borderBottomColor: 'black',
-            borderRadius: 4,
-            margin: 12
-        },
-        productInput: {
-            width: 120,
-            height: 24,
-            borderBottomWidth: 1,
-            borderBottomColor: 'black',
-            borderRadius: 4,
-            margin: 12
-        },
-        descriptionInput: {
-
-            width: 120,
-            height: 24,
-            borderBottomWidth: 1,
-            borderBottomColor: 'black',
-            borderRadius: 4,
-            margin: 12
-        },
-        button: {
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingVertical: 12,
-            paddingHorizontal: 32,
-            borderRadius: 4,
-            elevation: 3,
-            backgroundColor: 'black',
-            width: '80%'
-        },
-        text: {
-            fontSize: 18,
-            lineHeight: 21,
-            fontWeight: 'bold',
-            letterSpacing: 0.25,
-            color: 'white',
+            flex: 1,
         },
     })
 
@@ -144,14 +67,19 @@ const NewPost = () => {
         )
     }
 
-    const takePhotoFromCamera = () => {
-        ImagePicker.requestCameraPermissionsAsync()
-        ImagePicker.launchCameraAsync({
+    const takePhotoFromCamera = async () => {
+        const result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             aspect: [16, 9],
             quality: 1,
         })
+        console.log(result);
+
+        if (result) {
+            setImage(result.assets[0].uri);
+            setImageUri(result.assets[0].uri);
+        }
     }
     const choosePhotoFromLibrary = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
@@ -164,63 +92,89 @@ const NewPost = () => {
         console.log(result);
 
         if (result) {
-            setImage(result.assets[0].uri);
+            setImage(result.assets[0].uri)
+            setImageUri(result.assets[0].uri)
         }
     }
 
+    const cropImage = async () => {
+        const croppedImage = await ImageManipulator.manipulateAsync(
+            imageUri,
+            [{ crop: { originX: 0, originY: 0, width: 300, height: 400 } }],
+            { compress: 1, format: ImageManipulator.SaveFormat.PNG }
+        );
+
+        setImageUri(croppedImage.uri);
+        setImage(croppedImage.uri);
+    };
+
     return (
         // <Pressable className='w-full h-full' onPress={() => Keyboard.dismiss()}>
-        <View style={{ flex: 1, height: Dimensions.get('window').height - 100 }} className='flex-1 bg-black'>
+        <View className='flex-1 bg-black'>
             <StatusBar style='light' />
-            <View style={styles.header}>
-                <Text className='font-bold text-4xl text-white'>New Post</Text>
+            <SafeAreaView />
+            <View style={styles.header} className='w-full items-center justify-center' >
+                <Text className='text-white text-5xl font-bold'>New Post</Text>
             </View>
-            <View className='flex-auto items-center justify-evenly overflow-scroll bg-white'>
-                <Pressable className='justify-start items-start w-full ml-5 mt-5' onPress={() => setAdvanced(!advanced)}>
-                    <Text>{advanced ? 'Hide Advanced Features -' : 'Show Advanced Features +'}</Text>
-                </Pressable>
-                <Pressable className='h-[30vh] w-[45vw] bg-indigo-200 mt-6 rounded-xl' onPressOut={() => pickImage()}>
-                    {!image &&
-                        <View className='flex justify-center items-center'>
-                            <View style={styles.textContainer}>
-                                <Text className='text-xl text-black mt-4'>Main Photo</Text>
+            <View style={styles.body} className='w-full items-center bg-slate-50'>
+                <View style={styles.photoArea} className='justify-center items-center'>
+                    <Pressable className='justify-start items-start w-full' onPress={() => setAdvanced(!advanced)}>
+                        <Text>{advanced ? 'Hide Advanced Features -' : 'Show Advanced Features +'}</Text>
+                    </Pressable>
+                    <View className='w-full justify-center items-center mb-2 mt-4'>
+                        <Text className='text-xs font-semibold text-black'>Main Photo</Text>
+                    </View>
+                    <Pressable className='h-[18vh] w-[24vw] justify-center items-center bg-indigo-200 rounded-xl' onPressOut={() => pickImage()}>
+                        {!image &&
+                            <View className='w-full h-full flex-col justify-center items-center'>
+                                <View style={styles.iconContainer} className='w-full justify-center items-center'>
+                                    <AntDesign name="plus" size={32} color="black" />
+                                </View>
                             </View>
-                            <View style={styles.iconContainer}>
-                                <AntDesign name="plus" size={56} color="black" />
-                            </View>
+                        }
+                        {image &&
+                            <Image className='w-full h-full rounded-xl' source={{ uri: image }} />
+                        }
+                    </Pressable>
+                    {image &&
+                        <View className='w-full h-12 flex-col justify-center items-center'>
+                            <Pressable className='w-full flex-row items-center' onPress={() => setImage(null)}>
+                                <MaterialCommunityIcons name="delete-outline" size={24} color="black" />
+                                <Text>Delete Photo</Text>
+                            </Pressable>
                         </View>
                     }
-                    {image && <Image className='rounded-xl' source={{ uri: image }} style={{ width: '100%', height: '100%' }} />}
-                </Pressable>
+                    {/* < View style={styles.container} >
+                        <TouchableOpacity onPress={pickImage}>
+                            <Text style={styles.button}>Choose Image</Text>
+                        </TouchableOpacity>
 
-
-                <View className='w-full justify-center items-center m-5'>
-                    <Pressable style={styles.button}>
-                        <Text style={styles.text}>POST</Text>
-                    </Pressable>
+                        {
+                            imageUri && (
+                                <>
+                                    <Image source={{ uri: imageUri }} className='h-12 w-12'/>
+                                    <TouchableOpacity onPress={cropImage}>
+                                        <Text>Crop Image</Text>
+                                    </TouchableOpacity>
+                                </>
+                            )
+                        }
+                    </View > */}
                 </View>
-            </View>
-        </View>
-        // </Pressable >
-    )
-}
-
-export default NewPost
-
-
-                {/* {!advanced ?
-                    <View className='w-full h-1/6 flex-col items-center'>
-                        <View className='w-full flex-row justify-center items-center'>
-                            <Ionicons name="ios-shirt" size={24} color="black" />
-                            <TextInput
-                                style={styles.productInput}
-                                placeholder="Product Name"
-                                placeholderTextColor="black"
-                                maxLength={99}
-                            />
-                        </View>
-                        <View className='w-[90vw] mt-8 flex flex-row justify-around items-center mb-4'>
-                            <View className='flex flex-row items-center'>
+                <View style={styles.inputsArea}>
+                    <ScrollView>
+                        <View className='w-full flex-col justify-start items-center'>
+                            <View className='w-full h-36 flex-row justify-evenly items-center'>
+                                <Ionicons name="ios-shirt" size={32} color="black" />
+                                <TextInput
+                                    className='w-3/5 h-14 border rounded-md px-2 justify-start items-start border-gray-300'
+                                    placeholder="Product Name"
+                                    placeholderTextColor="black"
+                                    maxLength={99}
+                                    multiline={true}
+                                />
+                            </View>
+                            <View className='w-full h-36 flex-row justify-center items-center'>
                                 <Entypo name="price-tag" size={30} color="black" />
                                 <TextInput
                                     style={styles.sizeInput}
@@ -229,7 +183,7 @@ export default NewPost
                                     enablesReturnKeyAutomatically={true}
                                 />
                             </View>
-                            <View className='flex flex-row items-center'>
+                            <View className='w-full h-36 flex-row justify-center items-center'>
                                 <FontAwesome5 name="coins" size={30} color="black" />
                                 <TextInput
                                     style={styles.priceInput}
@@ -241,50 +195,45 @@ export default NewPost
                                 />
                             </View>
                         </View>
-                    </View>
-                    :
-                    <ScrollView className='w-full h-1/6 flex-col m-10'>
-                        <View className='w-full flex-col items-center'>
-                            <View className='w-full flex-row justify-center items-center'>
-                                <Ionicons name="ios-shirt" size={30} color="black" />
-                                <TextInput
-                                    style={styles.productInput}
-                                    placeholder="Product Name"
-                                    placeholderTextColor="black"
-                                    maxLength={99}
-                                />
-                            </View>
-                            <View className='w-[90vw] mt-8 flex flex-row justify-around items-center mb-4'>
-                                <View className='flex flex-row items-center'>
-                                    <Entypo name="price-tag" size={30} color="black" />
-                                    <TextInput
-                                        style={styles.sizeInput}
-                                        placeholder="Size"
-                                        placeholderTextColor="black"
-                                    />
-                                </View>
-                                <View className='flex flex-row items-center'>
-                                    <FontAwesome5 name="coins" size={30} color="black" />
-                                    <TextInput
-                                        style={styles.priceInput}
-                                        placeholder="Price"
-                                        keyboardType="numeric"
-                                        placeholderTextColor="black"
-                                        maxLength={4}
-                                    />
-                                </View>
-                            </View>
-                        </View>
-                        <View style={styles.advancedInputsContainer}>
-                            <View className='flex-row '>
-                                <MaterialIcons name="description" size={30} color="black" />
-                                <TextInput
-                                    style={styles.descriptionInput}
-                                    placeholder="Dscription"
-                                    placeholderTextColor="black"
-                                    maxLength={300}
-                                />
-                            </View>
-                        </View>
                     </ScrollView>
-                } */}
+                </View>
+                <View style={styles.buttonArea} className='w-full justify-center items-center'>
+                    <Pressable className='w-4/6 h-12 items-center justify-center rounded-xl bg-black'>
+                        <Text className='text-white text-xl font-bold'>POST</Text>
+                    </Pressable>
+                </View>
+            </View>
+        </View>
+        // </Pressable >
+    )
+}
+
+export default NewPost
+
+    // import React, { useState } from 'react';
+    // import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+    // import { ImageManipulator } from 'expo-image-manipulator';
+    // import * as ImagePicker from 'expo-image-picker';
+
+    // export default function App() {
+
+    //     const pickImage = async () => {
+    //         let result = await ImagePicker.launchImageLibraryAsync({
+    //             mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //             allowsEditing: true,
+    //             aspect: [1, 1],
+    //             quality: 1,
+    //         });
+
+    //         if (!result.cancelled) {
+    //             setImageUri(result.uri);
+    //         }
+    //     };
+
+
+
+//     return (
+
+//     );
+// }
+
