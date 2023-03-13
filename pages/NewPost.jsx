@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Dimensions, Image, Keyboard, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
+import { Alert, Dimensions, Image, Keyboard, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
 import * as ImagePicker from 'expo-image-picker';
@@ -116,6 +116,34 @@ const NewPost = () => {
         },
     })
 
+    function pickImage() {
+        Alert.alert(
+            'Upload Photo',
+            '',
+            [
+                {
+                    text: 'From Gallery',
+                    onPress: () => {
+                        choosePhotoFromLibrary()
+                    },
+                },
+                {
+                    text: 'Take Photo',
+                    onPress: () => {
+                        takePhotoFromCamera()
+                    }
+                },
+                {
+                    text: 'cancel',
+                    onPress: () => { },
+                    style: 'destructive'
+                },
+
+            ],
+            { cancelable: true }
+        )
+    }
+
     const takePhotoFromCamera = () => {
         ImagePicker.requestCameraPermissionsAsync()
         ImagePicker.launchCameraAsync({
@@ -151,7 +179,7 @@ const NewPost = () => {
                 <Pressable className='justify-start items-start w-full ml-5 mt-5' onPress={() => setAdvanced(!advanced)}>
                     <Text>{advanced ? 'Hide Advanced Features -' : 'Show Advanced Features +'}</Text>
                 </Pressable>
-                <Pressable className='h-[30vh] w-[45vw] bg-indigo-200 mt-6 rounded-xl' onPressOut={() => choosePhotoFromLibrary()}>
+                <Pressable className='h-[30vh] w-[45vw] bg-indigo-200 mt-6 rounded-xl' onPressOut={() => pickImage()}>
                     {!image &&
                         <View className='flex justify-center items-center'>
                             <View style={styles.textContainer}>
@@ -164,7 +192,23 @@ const NewPost = () => {
                     }
                     {image && <Image className='rounded-xl' source={{ uri: image }} style={{ width: '100%', height: '100%' }} />}
                 </Pressable>
-                {!advanced ?
+
+
+                <View className='w-full justify-center items-center m-5'>
+                    <Pressable style={styles.button}>
+                        <Text style={styles.text}>POST</Text>
+                    </Pressable>
+                </View>
+            </View>
+        </View>
+        // </Pressable >
+    )
+}
+
+export default NewPost
+
+
+                {/* {!advanced ?
                     <View className='w-full h-1/6 flex-col items-center'>
                         <View className='w-full flex-row justify-center items-center'>
                             <Ionicons name="ios-shirt" size={24} color="black" />
@@ -243,17 +287,4 @@ const NewPost = () => {
                             </View>
                         </View>
                     </ScrollView>
-                }
-
-                <View className='w-full justify-center items-center m-5'>
-                    <Pressable style={styles.button}>
-                        <Text style={styles.text}>POST</Text>
-                    </Pressable>
-                </View>
-            </View>
-        </View>
-        // </Pressable > 
-    )
-}
-
-export default NewPost
+                } */}

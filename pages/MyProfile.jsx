@@ -1,16 +1,25 @@
-import { View, Text, StyleSheet, Dimensions, FlatList, Pressable, Image, SafeAreaView, TouchableHighlight } from 'react-native';
+import { View, Text, Alert, StyleSheet, Dimensions, FlatList, Pressable, Image, SafeAreaView, TouchableHighlight, ScrollView } from 'react-native';
 import { useEffect, useState } from 'react';
-import wishlistIcon from '../assets/favourite.png';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import Wishlist from './Wishlist';
+import menuIcon from '../assets/menu.png';
+import Modal from 'react-native-modal';
+import { AntDesign } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import EmailSettings from '../components/EmailSettings';
+import PasswordSettings from '../components/PasswordSettings';
+import PersonalInfo from '../components/PersonalInfo';
+import DeleteAccount from '../components/DeleteAccount';
 
-
-const Stack = createNativeStackNavigator();
 
 const MyProfile = () => {
+
+    const [forSaleTextStyle, setForSaleTextStyle] = useState('');
+    const [historyTextStyle, setHistoryTextStyle] = useState('');
     const [profile, setProfile] = useState('For Sale');
-    const [postAnimation, setPostAnimation] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
+    const [settingVisible, setSettingVisible] = useState(false);
+    const [settingsType, setSettingsType] = useState('');
 
     const posts = [
         {
@@ -82,7 +91,7 @@ const MyProfile = () => {
     const styles = StyleSheet.create({
         topBar: {
             height: 75,
-            width: Dimensions.get('screen').width + 35,
+            width: Dimensions.get('screen').width,
             backgroundColor: '#000000',
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -209,11 +218,25 @@ const MyProfile = () => {
             height: '75%',
             width: 1,
             backgroundColor: '#ffffff',
-        }
+        },
+        upperModal: {
+            flex: 1
+        },
+        lowerModal: {
+            flex: 6
+        },
+        settingsZone: {
+            backgroundColor: '#d4d4d4',
+            flex: 7,
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+        },
+        buttonsZone: {
+            flex: 4
+        },
     });
 
-    const [forSaleTextStyle, setForSaleTextStyle] = useState('');
-    const [historyTextStyle, setHistoryTextStyle] = useState('');
+
 
     useEffect(() => {
         setForSaleTextStyle(styles.styledView);
@@ -260,12 +283,65 @@ const MyProfile = () => {
         )
     }
 
+    function toggleModal() {
+        setModalVisible(!modalVisible);
+    }
+
+    function toggleSettings() {
+        setSettingsType('')
+        setSettingVisible(!settingVisible);
+    }
+
+    function openSpecificSettings(spesipication) {
+        setSettingVisible(false);
+        if (spesipication === 'personal info') {
+            setTimeout(() => {
+                setSettingsType(spesipication)
+            }, 250)
+        }
+        else if (spesipication === 'email') {
+            setTimeout(() => {
+                setSettingsType(spesipication)
+            }, 250)
+        }
+        else if (spesipication === 'password') {
+            setTimeout(() => {
+                setSettingsType(spesipication)
+            }, 250)
+        }
+        else if (spesipication === 'delete account') {
+            setTimeout(() => {
+                setSettingsType(spesipication)
+            }, 250)
+        }
+    }
+
+
+
+    function showAlert() {
+        Alert.alert(
+            'Are You Sure?',
+            '',
+            [
+                {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: true }
+        )
+    }
+
     return (
         <View style={{ height: Dimensions.get('window').height - 100 }}>
             <SafeAreaView />
             <View style={styles.topBar}>
-
                 <Text style={styles.topBarText}>UserName</Text>
+                <Pressable className='h-full w-20 justify-center items-end' onPressOut={() => toggleModal()}>
+                    <Image source={menuIcon} style={{ height: '80%', width: '50%' }} />
+                </Pressable>
             </View>
             <View style={styles.profileDetails}>
                 <View style={styles.profileDetailsTop}>
@@ -288,7 +364,6 @@ const MyProfile = () => {
                     </View>
                 </View>
                 <View style={styles.profileDetailsMid}>
-
                 </View>
                 <View style={styles.profileDetailsBottom}>
                     <Pressable style={styles.pressableArea} onPress={() => setProfileType('For Sale')}>
@@ -304,15 +379,121 @@ const MyProfile = () => {
                     </Pressable>
                 </View>
             </View>
-            <FlatList
-                style={styles.postsContainer}
-                data={formatData(posts, 3)}
-                renderItem={renderItem}
-                numColumns='3'
+            <ScrollView horizontal pagingEnabled style={styles.postsContainer}>
+                <FlatList
+                    // className='mr-1'
+                    style={styles.postsContainer}
+                    data={formatData(posts, 3)}
+                    renderItem={renderItem}
+                    numColumns='3'
+                >
+                </FlatList>
+                <FlatList
+                    // className='ml-1'7654
+                    style={styles.postsContainer}
+                    data={formatData(posts, 3)}
+                    renderItem={renderItem}
+                    numColumns='3'
+                >
+                </FlatList>
+            </ScrollView>
+            <Modal
+                isVisible={modalVisible}
+                onBackdropPress={() => {
+                    toggleModal()
+                    setSettingVisible(false)
+                    setSettingsType('')
+                }}
+                onSwipeComplete={() => {
+                    toggleModal()
+                    setSettingVisible(false)
+                    setSettingsType('')
+                }}
+                swipeDirection='right'
+                animationIn='slideInRight'
+                animationOut='fadeOutRight'
+                animationInTiming={500}
+                className='w-screen h-screen items-end'
             >
-            </FlatList>
+                <View className='h-screen w-screen flex-col bg-slate-50 rounded-3xl'>
+                    <View style={styles.upperModal} className='w-full h-16 justify-end bg-slate-50 rounded-t-3xl'>
+                        <Pressable className='w-max h-16 mt-3 justify-center items-end pr-8 border-b-[1] border-b bg-slate-50' onPressOut={() => setModalVisible(false)}>
+                            <AntDesign name="menu-fold" size={36} color="black" />
+                        </Pressable>
+                    </View>
+                    <View style={styles.lowerModal} className='w-full bg-slate-400 justify-end rounded-b-3xl'>
+                        <View style={styles.settingsZone}>
+                            {settingVisible &&
+                                <View className='h-3/5 w-full items-center pl-4 pr-8 bg-white border-t-[1] border-t'>
+                                    <Pressable className='flex-1 w-full flex-row justify-between items-center' onPress={() => openSpecificSettings('personal info')}>
+                                        <Text>Personal Infornation</Text>
+                                        <AntDesign name="infocirlceo" size={24} color="black" />
+                                    </Pressable>
+                                    <Pressable className='flex-1 w-full flex-row justify-between items-center' onPress={() => openSpecificSettings('email')}>
+                                        <Text>Edit E-mail Address</Text>
+                                        <MaterialCommunityIcons name="email-edit-outline" size={24} color="black" />
+                                    </Pressable>
+                                    <Pressable className='flex-1 w-full flex-row justify-between items-center' onPress={() => openSpecificSettings('password')}>
+                                        <Text>Edit Password</Text>
+                                        <AntDesign name="Safety" size={24} color="black" />
+                                    </Pressable>
+                                    <Pressable className='flex-1 w-full flex-row justify-between items-center' onPress={() => openSpecificSettings('delete account')}>
+                                        <Text>Delete Account</Text>
+                                        <MaterialCommunityIcons name="account-remove-outline" size={24} color="black" />
+                                    </Pressable>
+                                </View>
+                            }
+                            {
+                                settingsType === 'personal info' &&
+                                <PersonalInfo />
+                            }
+                            {
+                                settingsType === 'email' &&
+                                <EmailSettings />
+                            }
+                            {
+                                settingsType === 'password' &&
+                                <PasswordSettings />
+                            }
+                            {
+                                settingsType === 'delete account' &&
+                                <DeleteAccount />
+                            }
+                        </View>
+                        <View style={styles.buttonsZone}>
+                            {!settingVisible &&
+                                <View className='h-[1] w-full bg-black'></View>
+                            }
+                            <View className='w-full h-16 bg-white'>
+                                <Pressable className='h-full flex-row justify-between items-center pl-4 pr-8' onPress={() => toggleSettings()}>
+                                    <View className='flex-row items-center'>
+                                        <Feather name="settings" size={24} color="black" />
+                                        <Text className='ml-2'>Settings</Text>
+                                    </View>
+                                    <View>
+                                        {settingVisible ?
+                                            <AntDesign name="up" size={24} color="black" />
+                                            :
+                                            <AntDesign name="down" size={24} color="black" />
+                                        }
+                                    </View>
+                                </Pressable>
+                            </View>
+                            <View className='h-[1] w-full bg-black'></View>
+                            <View className='w-full h-16 bg-white mb-32'>
+                                <Pressable className='h-full flex-row justify-start items-center pl-4' onPressOut={() => showAlert()}>
+                                    <Ionicons name="ios-log-out-outline" size={24} color="black" />
+                                    <Text className='ml-2'>Log-Out</Text>
+                                </Pressable>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     )
 }
+
+
 
 export default MyProfile
