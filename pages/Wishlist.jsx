@@ -1,11 +1,12 @@
-import { View, Text, SafeAreaView, FlatList, Dimensions } from 'react-native'
-import React from 'react'
+import { View, Text, SafeAreaView, FlatList, Dimensions, Image } from 'react-native'
+import React, { useContext } from 'react'
 import { StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { AppContext } from '../components/AppContext';
 
 
 const Wishlist = () => {
-
+    const { wishList } = useContext(AppContext)
     const styles = StyleSheet.create({
         container: {
             height: Dimensions.get('screen').height - 100,
@@ -117,7 +118,7 @@ const Wishlist = () => {
         }
         return (
             <View key={index} style={styles.post}>
-                <Text style={{ color: 'black' }}>{item.productName}</Text>
+                <Text style={{ color: 'black' }}>{item.seller}</Text>
                 <Text style={{ color: 'black' }}>{item.price}</Text>
             </View>
         )
@@ -132,7 +133,7 @@ const Wishlist = () => {
             </View>
             <FlatList
                 style={styles.list}
-                data={formatData(tempArray, 2)}
+                data={formatData(wishList, 2)}
                 renderItem={renderItem}
                 numColumns='2'
             >
