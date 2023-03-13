@@ -1,17 +1,19 @@
 import { Dimensions, FlatList, Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext, useState } from "react";
 import Post from "../components/Post";
 import { useNavigation } from "@react-navigation/native";
+import { AppContext } from "../components/AppContext";
 
 
 export default function Feed() {
     const navigation = useNavigation();
-    const array = [{
+    const { wishList } = useContext(AppContext)
+    const [array, setArray] = useState([{
         img: "https://i.etsystatic.com/12686376/r/il/606a8c/2261350622/il_fullxfull.2261350622_soii.jpg",
         seller: 'Roy Rutzky',
         size: 'XL',
         price: '60₪',
-        images: ['https://images.pexels.com/photos/1232459/pexels-photo-1232459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 'https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2','https://images.pexels.com/photos/1337477/pexels-photo-1337477.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'],
+        images: ['https://images.pexels.com/photos/1232459/pexels-photo-1232459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 'https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 'https://images.pexels.com/photos/1337477/pexels-photo-1337477.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'],
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     },
     {
@@ -37,16 +39,24 @@ export default function Feed() {
         price: '40₪',
         images: [],
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fug'
-    },]
+    },])
     const renderItems = ({ post, index }) => {
         return (
             <View key={index} style={{ flex: 1, height: Dimensions.get('window').height - 200 }}>
-                    <Post
-                        post = {array[index]}
-                        navigation={navigation}
-                    />
-                </View>
+                <Post
+                    post={array[index]}
+                    navigation={navigation}
+                />
+            </View>
         )
+    }
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = async () => {
+        setRefreshing(true)
+        console.log(wishList);
+        setArray(wishList)
+        setRefreshing(false)
+        console.log('hi');
     }
     return (
         <View className='flex-1'>
@@ -56,6 +66,8 @@ export default function Feed() {
                 pagingEnabled
                 keyExtractor={item => array.indexOf(item)}
                 decelerationRate='fast'
+                refreshing={refreshing}
+                onRefresh={onRefresh}
             />
         </View>
     );

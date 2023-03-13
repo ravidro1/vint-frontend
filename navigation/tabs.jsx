@@ -1,9 +1,10 @@
 import { StyleSheet, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Feed from "../screens/Feed";
 import FollowingFeed from "../screens/FollowingFeed";
@@ -23,7 +24,6 @@ import MyProfile from "../pages/MyProfile";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const Feeds = createMaterialTopTabNavigator();
-const Drawer = createDrawerNavigator();
 
 const FeedStack = () => {
     return (
@@ -51,38 +51,42 @@ const HomeStack = () => {
     )
 }
 
-const DrawerStack = () => {
-    return (
-        <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-            <Drawer.Screen name="Search" component={Search} />
-            <Drawer.Screen name="Drawer" component={Drawer} />
-        </Drawer.Navigator>
-    )
-}
-
-function Tabs() {
+function Tabs({ navigation }) {
+    useEffect(() => {
+        const checkToken = async () => {
+            const token = await AsyncStorage.getItem('token');
+            if (!token) {
+                navigation.navigate('Landing')
+            }
+            else {
+                console.log(token);
+            }
+        }
+        checkToken()
+    }, []);
     return (
         <Tab.Navigator screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
-            tabBarInactiveTintColor: 'black',
-            tabBarActiveTintColor: 'red',
+            tabBarInactiveTintColor: 'white',
+            tabBarActiveTintColor: 'rgb(14, 165, 233)',
             tabBarStyle: {
                 height: 100,
+                backgroundColor: 'rgb(12, 74, 110)'
             }
         }}>
-            <Tab.Screen name="Search" component={Search} options={{
-                tabBarIcon: ({ color, size }) => (
-                    <View className='flex justify-center items-center'>
-                        <FontAwesome name="search" size={35} color={color} />
-                    </View>
-                )
-            }} />
             <Tab.Screen name="Feed" component={HomeStack} options={{
                 tabBarBadge: 3,
                 tabBarIcon: ({ color, size }) => (
                     <View className='flex justify-center items-center'>
                         <Entypo name="shop" size={35} color={color} />
+                    </View>
+                )
+            }} />
+            <Tab.Screen name="Search" component={Search} options={{
+                tabBarIcon: ({ color, size }) => (
+                    <View className='flex justify-center items-center'>
+                        <FontAwesome name="search" size={35} color={color} />
                     </View>
                 )
             }} />
