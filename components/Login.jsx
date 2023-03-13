@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 function Login({ setView , setID , setToken, setEmail}) {
-    // AsyncStorage.clear()
+    AsyncStorage.clear()
     const navigation = useNavigation()
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');

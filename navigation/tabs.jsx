@@ -32,6 +32,19 @@ const FeedStack = () => {
                 height: 100,
                 display: 'flex',
                 justifyContent: 'flex-end',
+                backgroundColor: 'rgb(10, 34, 57)',
+            },
+            tabBarLabelStyle: {
+                color: 'white',
+                fontSize: 15,
+                fontWeight: 'bold',
+            },
+            tabBarIndicatorStyle: {
+                backgroundColor: 'rgb(14, 165, 233)',
+                height: 6,
+                borderRadius: 10,
+                width: '30%',
+                marginLeft: '7.5%'
             }
         }}>
             <Feeds.Screen name="FOR YOU" component={Feed} />
@@ -72,11 +85,10 @@ function Tabs({ navigation }) {
             tabBarActiveTintColor: 'rgb(14, 165, 233)',
             tabBarStyle: {
                 height: 100,
-                backgroundColor: 'rgb(12, 74, 110)'
+                backgroundColor: 'rgb(10, 34, 57)',
             }
         }}>
             <Tab.Screen name="Feed" component={HomeStack} options={{
-                tabBarBadge: 3,
                 tabBarIcon: ({ color, size }) => (
                     <View className='flex justify-center items-center'>
                         <Entypo name="shop" size={35} color={color} />
