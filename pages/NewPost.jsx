@@ -9,6 +9,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5, Entypo } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
+import axios from "axios";
 
 
 const NewPost = () => {
@@ -22,6 +23,23 @@ const NewPost = () => {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
 
+
+    async function Submit() {
+        // needs:       userId,
+        //       productName,
+        //       productDescription,
+        //       productPrice,
+        //       productMedia,
+        //       productCategory,
+        //       onBid,
+        //       productCondition,
+        //       tags,
+        console.log("hey");
+        console.log(productName, size, price, description)
+        // const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/createproduct`,{
+        //     productName, productDescription: description, productPrice: price, productMedia: image,
+        // })
+    }
     const styles = StyleSheet.create({
         header: {
             flex: 1,
@@ -45,6 +63,7 @@ const NewPost = () => {
             display: mainPhoto
         },
     })
+
 
     useEffect(() => {
         const toggleMainPhoto = () => {
@@ -348,7 +367,7 @@ const NewPost = () => {
                     </ScrollView>
                 </View>
                 <View style={styles.buttonArea} className='w-full justify-center items-center'>
-                    <TouchableOpacity className='w-4/6 h-12 items-center justify-center rounded-xl bg-black'>
+                    <TouchableOpacity onPress={Submit} className='w-4/6 h-12 items-center justify-center rounded-xl bg-black'>
                         <Text className='text-white text-xl font-bold'>POST</Text>
                     </TouchableOpacity>
                 </View>
