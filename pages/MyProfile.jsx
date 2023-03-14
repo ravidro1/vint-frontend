@@ -1,4 +1,4 @@
-import { View, Text, Alert, StyleSheet, Dimensions, FlatList, Pressable, Image, SafeAreaView, TouchableHighlight, ScrollView } from 'react-native';
+import { View, Text, Alert, StyleSheet, Dimensions, FlatList, Pressable, Image, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import { useEffect, useState } from 'react';
 import menuIcon from '../assets/menu.png';
 import Modal from 'react-native-modal';
@@ -10,6 +10,8 @@ import EmailSettings from '../components/EmailSettings';
 import PasswordSettings from '../components/PasswordSettings';
 import PersonalInfo from '../components/PersonalInfo';
 import DeleteAccount from '../components/DeleteAccount';
+import * as ImagePicker from 'expo-image-picker';
+import { StatusBar } from 'expo-status-bar';
 
 
 const MyProfile = () => {
@@ -18,8 +20,11 @@ const MyProfile = () => {
     const [historyTextStyle, setHistoryTextStyle] = useState('');
     const [profile, setProfile] = useState('For Sale');
     const [modalVisible, setModalVisible] = useState(false);
+    const [followersmodalVisible, setFollowersModalVisible] = useState(false);
+    const [followingmodalVisible, setFollowingModalVisible] = useState(false);
     const [settingVisible, setSettingVisible] = useState(false);
     const [settingsType, setSettingsType] = useState('');
+    const [profileImage, setProfileImage] = useState(null);
 
     const posts = [
         {
@@ -88,11 +93,114 @@ const MyProfile = () => {
         },
     ]
 
+    const followers = [
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+    ]
+
     const styles = StyleSheet.create({
         topBar: {
             height: 75,
             width: Dimensions.get('screen').width,
-            backgroundColor: '#000000',
+            backgroundColor: '#0d243e',
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -121,14 +229,13 @@ const MyProfile = () => {
         profileDetails: {
             height: 270,
             justifyContent: 'space-between',
-            backgroundColor: '#000000'
+            backgroundColor: '#0d243e'
         },
         profileDetailsBottom: {
             height: 80,
             justifyContent: 'space-evenly',
             flexDirection: 'row',
             alignItems: 'center',
-            backgroundColor: '#000000',
             borderBottomColor: 'white',
             borderBottomWidth: 1,
             paddingBottom: 8
@@ -187,14 +294,12 @@ const MyProfile = () => {
             justifyContent: 'center',
             flexDirection: 'row',
             alignItems: 'center',
-            backgroundColor: '#000000',
         },
         profileDetailsMid: {
             height: 80,
             justifyContent: 'center',
             flexDirection: 'row',
             alignItems: 'center',
-            backgroundColor: '#000000',
             borderBottomColor: 'white',
             borderBottomWidth: 1,
         },
@@ -208,7 +313,10 @@ const MyProfile = () => {
             width: 100,
             height: 100,
             borderRadius: '50%',
-            backgroundColor: '#1583ae'
+            backgroundColor: '#afafaf'
+        },
+        profileImage: {
+            borderRadius: '50%',
         },
         numbersText: {
             justifyContent: 'center',
@@ -316,7 +424,80 @@ const MyProfile = () => {
         }
     }
 
+    const renderFollowers = ({ item, index }) => {
+        if (item.empty) {
+            return (
+                <View style={styles.invisible}>
+                </View>
+            )
+        }
+        return (
+            <View key={index} className='h-20 w-full flex-row items-center justify-between pl-2 pr-4 border border-b-white border-t-white'>
+                <Text style={{ color: 'white' }}>{item.name}</Text>
+                <Image source={{ uri: item.image }} className='h-10 w-10' />
+            </View>
+        )
+    }
 
+    function pickImage() {
+        Alert.alert(
+            'Upload Photo',
+            '',
+            [
+                {
+                    text: 'From Gallery',
+                    onPress: () => {
+                        choosePhotoFromLibrary()
+                    },
+                },
+                {
+                    text: 'Take Photo',
+                    onPress: () => {
+                        takePhotoFromCamera()
+                    }
+                },
+                {
+                    text: 'Delete Photo',
+                    onPress: () => { setProfileImage(null) },
+                },
+                {
+                    text: 'cancel',
+                    onPress: () => { },
+                    style: 'destructive'
+                },
+
+            ],
+            { cancelable: true }
+        )
+    }
+
+    const takePhotoFromCamera = async () => {
+        const result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+        })
+        console.log(result);
+
+        if (result) {
+            setProfileImage(result.assets[0].uri);
+        }
+    }
+    const choosePhotoFromLibrary = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+        })
+
+
+        if (result) {
+            console.log(result);
+            setProfileImage(result.assets[0].uri)
+        }
+    }
 
     function showAlert() {
         Alert.alert(
@@ -334,9 +515,18 @@ const MyProfile = () => {
         )
     }
 
+    function toggleFollowersModal() {
+        setFollowersModalVisible(!followersmodalVisible);
+    }
+
+    function toggleFollowingModal() {
+        setFollowingModalVisible(!followingmodalVisible)
+    }
+
     return (
         <View style={{ height: Dimensions.get('window').height - 100 }}>
             <SafeAreaView />
+            <StatusBar style='dark' />
             <View style={styles.topBar}>
                 <Text style={styles.topBarText}>UserName</Text>
                 <Pressable className='h-full w-20 justify-center items-end' onPressOut={() => toggleModal()}>
@@ -346,21 +536,73 @@ const MyProfile = () => {
             <View style={styles.profileDetails}>
                 <View style={styles.profileDetailsTop}>
                     <View style={styles.numbers}>
-                        <View>
-                            <View style={styles.profilePic} />
-                        </View>
+                        <TouchableOpacity style={styles.profilePic} className='justify-center items-center' onPressOut={() => pickImage()}>
+                            {
+                                profileImage
+                                    ?
+                                    <Image source={{ uri: profileImage }} style={styles.profileImage} className='h-full w-full' />
+                                    :
+                                    <Ionicons name="ios-person-circle-outline" size={64} color="#7d7d7d" />
+                            }
+                        </TouchableOpacity>
                         <View style={styles.numbersText}>
                             <Text style={styles.profileDetailsBottomText}>Posts</Text>
-                            <Text style={styles.profileDetailsBottomText}>17</Text>
+                            <Text style={styles.profileDetailsBottomText}>{posts.length}</Text>
                         </View>
-                        <View style={styles.numbersText}>
+                        <TouchableOpacity style={styles.numbersText} onPressOut={() => toggleFollowersModal()}>
                             <Text style={styles.profileDetailsBottomText}>Followers</Text>
-                            <Text style={styles.profileDetailsBottomText}>358</Text>
-                        </View>
-                        <View style={styles.numbersText}>
+                            <Text style={styles.profileDetailsBottomText}>{followers.length}</Text>
+                            <Modal
+                                isVisible={followersmodalVisible}
+                                onBackdropPress={() => toggleFollowersModal}
+                                onSwipeComplete={() => toggleFollowersModal()}
+                                animationIn='slideInUp'
+                                animationOut='slideOutDown'
+                                swipeDirection='down'
+                                animationInTiming={500}
+                                animationOutTiming={500}
+                                className='h-screen w-screen items-center justify-end m-0'
+                            >
+                                <View className='w-full h-[720] bg-black'>
+                                    <View className='flex-[1] justify-center items-center'>
+                                        <View className='h-2 w-1/5 bg-slate-400 rounded-3xl' />
+                                    </View>
+                                    <FlatList
+                                        data={followers}
+                                        renderItem={renderFollowers}
+                                        className='flex-[11] h-5/6 w-full'
+                                    >
+                                    </FlatList>
+                                </View>
+                            </Modal>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.numbersText} onPressOut={() => toggleFollowingModal()}>
                             <Text style={styles.profileDetailsBottomText}>Following</Text>
-                            <Text style={styles.profileDetailsBottomText}>112</Text>
-                        </View>
+                            <Text style={styles.profileDetailsBottomText}>{followers?.length}</Text>
+                            <Modal
+                                isVisible={followingmodalVisible}
+                                onBackdropPress={() => toggleFollowingModal()}
+                                onSwipeComplete={() => toggleFollowingModal()}
+                                animationIn='slideInUp'
+                                animationOut='slideOutDown'
+                                swipeDirection='down'
+                                animationInTiming={500}
+                                animationOutTiming={500}
+                                className='h-screen w-screen items-center justify-end m-0'
+                            >
+                                <View className='w-full h-[720] bg-black'>
+                                    <View className='flex-[1] justify-center items-center'>
+                                        <View className='h-2 w-1/5 bg-slate-400 rounded-3xl' />
+                                    </View>
+                                    <FlatList
+                                        data={followers}
+                                        renderItem={renderFollowers}
+                                        className='flex-[11] h-5/6 w-full'
+                                    >
+                                    </FlatList>
+                                </View>
+                            </Modal>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.profileDetailsMid}>
