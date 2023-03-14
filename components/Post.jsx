@@ -25,20 +25,20 @@ const Post = (props) => {
         <View style={{ flex: 1, height: Dimensions.get('window').height - 100 }} className='flex justify-center overflow-scroll border-b-2 border-b-black'>
                 <Image source={image} resizeMode='cover' className='h-[100vh]' />
                 <View className='absolute w-1/6 h-1/3 bottom-5 right-2  rounded-full flex justify-around items-center'>
-                    <TouchableOpacity className='bg-transparent shadow-md shadow-black' onPress={() => navigation.navigate('Profile', { post: post })}>
+                    <TouchableOpacity className='bg-white shadow-md shadow-black' onPress={() => navigation.navigate('Profile', { post: post })}>
                         <FontAwesome name="user-circle" size={38} color="white" />
                     </TouchableOpacity>
-                    <TouchableOpacity className='bg-transparent shadow-md shadow-black' onPress={() => navigation.navigate('Details', { post: post })}>
+                    <TouchableOpacity className='bg-white shadow-md shadow-black' onPress={() => navigation.navigate('Details', { post: post })}>
                         <Ionicons name="eye" size={40} color="white" />
                     </TouchableOpacity>
-                    <TouchableOpacity className='bg-transparent shadow-md shadow-black' onPress={() => addToWishList(post)}>
+                    <TouchableOpacity className='bg-white shadow-md shadow-black' onPress={() => addToWishList(post)}>
                         <FontAwesome name="heart" size={38} color={fav} />
                     </TouchableOpacity>
-                    <TouchableOpacity className='bg-transparent shadow-md shadow-black' onPress={() => navigation.navigate('')}>
+                    <TouchableOpacity className='bg-white shadow-md shadow-black' onPress={() => navigation.navigate('')}>
                         <Ionicons name="chatbubble-ellipses" size={40} color="white" />
                     </TouchableOpacity>
                 </View>
-                <View className='absolute bg-transparent shadow-sm shadow-black h-[7.5vh] w-[47%] bottom-5 left-2 flex-row  rounded-full flex justify-center items-center'>
+                <View className='absolute bg-white shadow-sm shadow-black h-[7.5vh] w-[47%] bottom-5 left-2 flex-row  rounded-full flex justify-center items-center'>
                     <Entypo name="price-tag" size={30} color="white" />
                     <Text className='text-xl font-bold text-white mr-5 ml-2'>{post.size}</Text>
                     <FontAwesome5 name="coins" size={30} color="white" />
