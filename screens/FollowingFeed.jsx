@@ -1,27 +1,28 @@
 import { Dimensions, FlatList, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Post from "../components/Post";
 import { useNavigation } from "@react-navigation/native";
 
 
 export default function FollowingFeed() {
+    const [followingFeed, setFollowingFeed] = useState([]);
     const navigation = useNavigation();
     const followingArray = [{
-        img: "https://images.pexels.com/photos/1232459/pexels-photo-1232459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        img: "https://www.chaosbazaarvintage.com.au/wp-content/uploads/2018/11/DSC01393.jpg",
         seller: 'Roy Rutzky',
         size: 'XL',
         price: '60₪',
         images: ['https://i.etsystatic.com/12686376/r/il/606a8c/2261350622/il_fullxfull.2261350622_soii.jpg', 'https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 'https://images.pexels.com/photos/1337477/pexels-photo-1337477.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'],
     },
     {
-        img: "https://www-konga-com-res.cloudinary.com/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/media/catalog/product/F/Q/201297_1653303974.jpg",
+        img: "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81SE0ZAVX1L._AC_SL1500_.jpg",
         seller: 'Tal Ben Ari',
         size: 'M',
         price: '50₪',
         images: [],
     },
     {
-        img: "https://cdn.shopify.com/s/files/1/0305/6438/4908/products/z091_1bcb0479-3896-4fec-80d7-37ff3fe5c2f9_5000x.jpg?v=1635328696",
+        img: "https://static.cream.sk/fmasarovic.com/webroots/www/content/mediagallery/fms_system/image/product/types/D2/338533.jpg",
         seller: 'RaviChat',
         size: 'L',
         price: '67₪',
@@ -34,6 +35,20 @@ export default function FollowingFeed() {
         price: '40₪',
         images: [],
     },]
+
+    // useEffect(() => {
+    //     const getProducts = async () => {
+    //         try {
+    //             const res = await axios.post(`${process.env.REACT_APP_BACKEND_ANALYTICS_URL}/getFollowingFeed`)
+    //             console.log('feed', res.data);
+    //             setFollowingFeed(res.data)
+    //         } catch (error) {
+    //             console.log('feed error: ', error);
+    //         }
+    //     }
+    //     getProducts()
+    // }, []);
+
     const renderItems = ({ post, index }) => {
         return (
             <View key={index} style={{ flex: 1, height: Dimensions.get('window').height - 200 }}>
