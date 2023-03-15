@@ -241,7 +241,7 @@ const NewPost = () => {
                         </View>
                         {!image &&
                             <View className='flex-[3] '>
-                                <TouchableOpacity style={styles.mainPhoto} className='h-24 w-24 justify-center items-center bg-sky-700 rounded-xl' onPressOut={() => pickImage()}>
+                                <TouchableOpacity style={styles.mainPhoto} className='h-20 w-20 justify-center items-center bg-sky-700 rounded-xl' onPressOut={() => pickImage()}>
                                     <View style={styles.iconContainer} className='w-full justify-center items-center'>
                                         <AntDesign name="plus" size={36} color="white" />
                                     </View>
@@ -250,10 +250,10 @@ const NewPost = () => {
                         }
                         {image &&
                             <View className='flex-[3] w-1/2 flex-col justify-evenly items-center'>
-                                <Image source={{ uri: image?.length ? image[0] : image }} style={{ height: 24, width: 13.5 }} />
+                                <Image source={{uri: image}} className='flex-[3] h-20 w-20 rounded-md'/>
                                 <TouchableOpacity className='flex-[1] w-full flex-row justify-center items-center' onPress={() => { setImage(null) }}>
-                                    <MaterialCommunityIcons name="delete-outline" size={24} color="black" />
-                                    <Text>Delete Photo</Text>
+                                    <MaterialCommunityIcons name="delete-outline" size={16} color="black" />
+                                    <Text className='text-xs'>Delete Photo</Text>
                                 </TouchableOpacity>
                             </View>
                         }
@@ -328,7 +328,7 @@ const NewPost = () => {
                                                 </View>
                                             </View>
                                             <View className='w-14 h-24 bg-slate-500'>
-                                            <View className='w-full h-full'>
+                                                <View className='w-full h-full'>
                                                     {
                                                         image[2] &&
                                                         <Image source={{ uri: image[2] }} className='w-full h-fit' />
@@ -336,7 +336,7 @@ const NewPost = () => {
                                                 </View>
                                             </View>
                                             <View className='w-14 h-24 bg-slate-500'>
-                                            <View className='w-full h-full'>
+                                                <View className='w-full h-full'>
                                                     {
                                                         image[3] &&
                                                         <Image source={{ uri: image[3] }} className='w-full h-fit' />
@@ -344,7 +344,7 @@ const NewPost = () => {
                                                 </View>
                                             </View>
                                             <View className='w-14 h-24 bg-slate-500'>
-                                            <View className='w-full h-full'>
+                                                <View className='w-full h-full'>
                                                     {
                                                         image[4] &&
                                                         <Image source={{ uri: image[4] }} className='w-full h-fit' />
@@ -352,7 +352,7 @@ const NewPost = () => {
                                                 </View>
                                             </View>
                                             <View className='w-14 h-24 bg-slate-500'>
-                                            <View className='w-full h-full'>
+                                                <View className='w-full h-full'>
                                                     {
                                                         image[5] &&
                                                         <Image source={{ uri: image[5] }} className='w-full h-fit' />

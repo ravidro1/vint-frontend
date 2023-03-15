@@ -1,19 +1,19 @@
-import { View, Text, StyleSheet, Dimensions, FlatList, Pressable, Image, SafeAreaView, TouchableHighlight } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, FlatList, Pressable, Image, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 import { useEffect, useState } from 'react';
-import wishlistIcon from '../assets/favourite.png';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import Wishlist from './Wishlist';
+import Modal from 'react-native-modal';
+import { Ionicons } from '@expo/vector-icons';
+
 
 
 const Stack = createNativeStackNavigator();
 
-const Profile = ({route, navigation}) => {
+const Profile = ({ route, navigation }) => {
     const { post } = route.params
     const [profile, setProfile] = useState('For Sale');
-    const [postAnimation, setPostAnimation] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
 
-    const posts = [ 
+    const posts = [
         {
             productName: 't-shirt',
             price: '99$'
@@ -80,11 +80,114 @@ const Profile = ({route, navigation}) => {
         },
     ]
 
+    const followers = [
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+        {
+            name: 'John Doe',
+            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+        },
+    ]
+
     const styles = StyleSheet.create({
         topBar: {
             height: 75,
             width: Dimensions.get('screen').width + 35,
-            backgroundColor: '#000000',
+            backgroundColor: '#0d243e',
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -113,14 +216,14 @@ const Profile = ({route, navigation}) => {
         profileDetails: {
             height: 270,
             justifyContent: 'space-between',
-            backgroundColor: '#000000'
+            backgroundColor: '#0d243e'
         },
         profileDetailsBottom: {
             height: 80,
             justifyContent: 'space-evenly',
             flexDirection: 'row',
             alignItems: 'center',
-            backgroundColor: '#000000',
+            // backgroundColor: '#10c140',
             borderBottomColor: 'white',
             borderBottomWidth: 1,
             paddingBottom: 8
@@ -179,14 +282,14 @@ const Profile = ({route, navigation}) => {
             justifyContent: 'center',
             flexDirection: 'row',
             alignItems: 'center',
-            backgroundColor: '#000000',
+            // backgroundColor: '#9c0f0f',
         },
         profileDetailsMid: {
             height: 80,
             justifyContent: 'center',
             flexDirection: 'row',
             alignItems: 'center',
-            backgroundColor: '#000000',
+            // backgroundColor: '#085156',
             borderBottomColor: 'white',
             borderBottomWidth: 1,
         },
@@ -200,7 +303,7 @@ const Profile = ({route, navigation}) => {
             width: 100,
             height: 100,
             borderRadius: '50%',
-            backgroundColor: '#1583ae'
+            backgroundColor: '#afafaf'
         },
         numbersText: {
             justifyContent: 'center',
@@ -246,7 +349,7 @@ const Profile = ({route, navigation}) => {
         return dataList
     }
 
-    const renderItem = ({ item, index }) => {
+    const renderPosts = ({ item, index }) => {
         if (item.empty) {
             return (
                 <View style={styles.invisible}>
@@ -254,38 +357,105 @@ const Profile = ({route, navigation}) => {
             )
         }
         return (
-                <View key={index} style={styles.post} postAnimation>
-                    <Text style={{ color: 'white' }}>{item.productName}</Text>
-                    <Text style={{ color: 'white' }}>{item.price}</Text>
-                </View>
+            <View key={index} style={styles.post}>
+                <Text style={{ color: 'white' }}>{item.productName}</Text>
+                <Text style={{ color: 'white' }}>{item.price}</Text>
+            </View>
         )
     }
+    const renderFollowers = ({ item, index }) => {
+        if (item.empty) {
+            return (
+                <View style={styles.invisible}>
+                </View>
+            )
+        }
+        return (
+            <View key={index} className='h-20 w-full flex-row items-center justify-between pl-2 pr-4 border border-b-white border-t-white'>
+                <Text style={{ color: 'white' }}>{item.name}</Text>
+                <Image source={{ uri: item.image }} className='h-10 w-10' />
+            </View>
+        )
+    }
+
+    function toggleModal() {
+        setModalVisible(!modalVisible);
+    }
+
 
     return (
         <View style={{ height: Dimensions.get('window').height - 100 }}>
             <SafeAreaView />
             <View style={styles.topBar}>
-                
+
                 <Text style={styles.topBarText}>{post.seller}</Text>
             </View>
             <View style={styles.profileDetails}>
                 <View style={styles.profileDetailsTop}>
                     <View style={styles.numbers}>
                         <View>
-                            <View style={styles.profilePic} />
+                            <View style={styles.profilePic} className='justify-center items-center'>
+                                <Ionicons name="ios-person-circle-outline" size={64} color="#7d7d7d" />
+                            </View>
                         </View>
                         <View style={styles.numbersText}>
                             <Text style={styles.profileDetailsBottomText}>Posts</Text>
-                            <Text style={styles.profileDetailsBottomText}>17</Text>
+                            <Text style={styles.profileDetailsBottomText}>{posts.length}</Text>
                         </View>
-                        <View style={styles.numbersText}>
+                        <TouchableOpacity style={styles.numbersText} onPress={() => toggleModal()}>
                             <Text style={styles.profileDetailsBottomText}>Followers</Text>
-                            <Text style={styles.profileDetailsBottomText}>358</Text>
-                        </View>
-                        <View style={styles.numbersText}>
+                            <Text style={styles.profileDetailsBottomText}>{followers.length}</Text>
+                            <Modal
+                                isVisible={modalVisible}
+                                onBackdropPress={() => toggleModal()}
+                                onSwipeComplete={() => toggleModal()}
+                                animationIn='slideInUp'
+                                animationOut='slideOutDown'
+                                swipeDirection='down'
+                                animationInTiming={500}
+                                animationOutTiming={500}
+                                className='h-screen w-screen items-center justify-end m-0'
+                            >
+                                <View className='w-full h-[720] bg-black'>
+                                    <View className='flex-[1] justify-center items-center'>
+                                        <View className='h-2 w-1/5 bg-slate-400 rounded-3xl' />
+                                    </View>
+                                    <FlatList
+                                        data={followers}
+                                        renderItem={renderFollowers}
+                                        className='flex-[11] h-5/6 w-full'
+                                    >
+                                    </FlatList>
+                                </View>
+                            </Modal>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.numbersText} onPress={() => toggleModal()}>
                             <Text style={styles.profileDetailsBottomText}>Following</Text>
-                            <Text style={styles.profileDetailsBottomText}>112</Text>
-                        </View>
+                            <Text style={styles.profileDetailsBottomText}>{followers?.length}</Text>
+                            <Modal
+                                isVisible={modalVisible}
+                                onBackdropPress={() => toggleModal()}
+                                onSwipeComplete={() => toggleModal()}
+                                animationIn='slideInUp'
+                                animationOut='slideOutDown'
+                                swipeDirection='down'
+                                animationInTiming={500}
+                                animationOutTiming={500}
+                                className='h-screen w-screen items-center justify-end m-0'
+                            >
+                                <View className='w-full h-[720] bg-black'>
+                                    <View className='flex-[1] justify-center items-center'>
+                                        <View className='h-2 w-1/5 bg-slate-400 rounded-3xl' />
+                                    </View>
+                                    <FlatList
+                                        data={followers}
+                                        renderItem={renderFollowers}
+                                        className='flex-[11] h-5/6 w-full'
+                                    >
+                                    </FlatList>
+                                </View>
+                            </Modal>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.profileDetailsMid}>
@@ -308,7 +478,7 @@ const Profile = ({route, navigation}) => {
             <FlatList
                 style={styles.postsContainer}
                 data={formatData(posts, 3)}
-                renderItem={renderItem}
+                renderItem={renderPosts}
                 numColumns='3'
             >
             </FlatList>
