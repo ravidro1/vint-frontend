@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, KeyboardAvoidingView, Text, TextInput, View } from 'react-native';
+import { Alert, Button, KeyboardAvoidingView, Text, TextInput, View } from 'react-native';
 import axios from "axios";
 import { REACT_APP_BACKEND_URL } from '@env'
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -38,6 +38,21 @@ const SignUp = ({ setView, setID, setToken, setEmail }) => {
             setView('VerifyEmail')
         } catch (error) {
             console.log('err', error);
+            Alert.alert(
+                'Error',
+                error.response.data.message,
+                [
+                    {
+                        text: 'OK', onPress: () => {
+                            setUserName('')
+                            setName('')
+                            setPhone('')
+                            setMyMail('')
+                            setPassword('')
+                            setConfirmPassword('')
+                        }
+                    },
+                ])
         }
     }
     return (
