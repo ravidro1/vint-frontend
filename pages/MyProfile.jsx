@@ -283,8 +283,8 @@ const MyProfile = () => {
     }
 
     const formatData = (dataList, numColumns) => {
-        const totalRows = Math.floor(dataList.length / numColumns)
-        let totalLastRow = dataList.length - (totalRows * numColumns)
+        const totalRows = Math.floor(dataList?.length / numColumns)
+        let totalLastRow = dataList?.length - (totalRows * numColumns)
 
         while (totalLastRow !== 0 && totalLastRow !== numColumns) {
             dataList.push({ key: 'blank', empty: true });
