@@ -9,7 +9,7 @@ const Post = (props) => {
     const [fav, setFav] = useState('white')
     const { wishList, setWishList } = useContext(AppContext)
     const { post, navigation } = props
-    const image = { uri: post.img }
+    const image = { uri: post.img }    
     const addToWishList = (post) => {
         const index = wishList.indexOf(post);
         if (index !== -1) {

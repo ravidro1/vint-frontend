@@ -51,7 +51,7 @@ function Login({setView, setID, setToken, setEmail}) {
     try {
       console.log(userName);
       const res = await axios.post(
-        process.env.REACT_APP_BACKEND_URL + "/user/forgotPassword",
+        `${process.env.REACT_APP_BACKEND_URL}/user/forgotPassw`,
         {username: userName}
       );
       console.log(res);
@@ -63,7 +63,7 @@ function Login({setView, setID, setToken, setEmail}) {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/user/login`,
+        process.env.REACT_APP_BACKEND_URL + `/user/login`,
         {username: userName, password: password}
       );
       setID(res.data.userID);

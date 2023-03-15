@@ -120,7 +120,6 @@ const NewPost = () => {
         },
     })
 
-
     useEffect(() => {
         const toggleMainPhoto = () => {
             if (image) {

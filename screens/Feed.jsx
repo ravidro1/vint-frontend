@@ -20,7 +20,7 @@ export default function Feed() {
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     },
     {
-        img: "https://www-konga-com-res.cloudinary.com/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/media/catalog/product/F/Q/201297_1653303974.jpg",
+        img: "https://i.ebayimg.com/images/g/eY8AAOSwzIxisDo3/s-l1600.jpg",
         seller: 'Tal Ben Ari',
         size: 'M',
         price: '50₪',
@@ -28,7 +28,7 @@ export default function Feed() {
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fug'
     },
     {
-        img: "https://cdn.shopify.com/s/files/1/0305/6438/4908/products/z091_1bcb0479-3896-4fec-80d7-37ff3fe5c2f9_5000x.jpg?v=1635328696",
+        img: "https://howtotellif.io/wp-content/uploads/2020/09/vintage-nike.jpg",
         seller: 'RaviChat',
         size: 'L',
         price: '67₪',
@@ -36,7 +36,7 @@ export default function Feed() {
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fug Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fug'
     },
     {
-        img: "https://images.wsj.net/im-234492/?width=860&height=1290",
+        img: "https://images.squarespace-cdn.com/content/v1/59c5325a80bd5e6fd2e95187/1591388727277-FQX0RRYUIP962062AVUB/IMG_0486.jpg?format=1500w",
         seller: 'KuberNati',
         size: 'S',
         price: '40₪',
@@ -48,7 +48,7 @@ export default function Feed() {
         const getProducts = async () => {
             try {
                 const res = await axios.post(`${process.env.REACT_APP_BACKEND_ANALYTICS_URL}/getFeed`)
-                console.log('feed' , res.data[0].tags)
+                console.log('feed' , res.data[0])
                 setFeed(res.data)
             } catch (error) {
                 console.log('feed error: ' , error)
