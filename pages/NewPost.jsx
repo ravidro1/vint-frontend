@@ -36,23 +36,44 @@ const NewPost = () => {
         console.log("----------------------------------hey");
         console.log(await AsyncStorage.getItem('user'));
         console.log(productName, size, price, description)
-        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/product/createproduct`, {
-            productName,
-            productDescription: description,
-            productPrice: price,
-            productMedia: [
-                {
-                    url: image,
-                    type: 'image/jpeg'
-                }
-            ],
-            userId: JSON.parse(await AsyncStorage.getItem('user')),
-            onBid: isBid,
-            productCategory: category,
-            productCondition: productCondition,
-            tags: tags,
-        })
+        try {
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/product/createproduct`, {
+                productName,
+                productDescription: description,
+                productPrice: price,
+                productMedia: [
+                    {
+                        url: image,
+                        type: 'image/jpeg'
+                    }
+                ],
+                userId: JSON.parse(await AsyncStorage.getItem('user')),
+                onBid: isBid,
+                productCategory: category,
+                productCondition: productCondition,
+                tags: tags,
+            })
+            console.log(res.data);
+            resetInputs();
+
+        } catch (error) {
+            console.log(error);
+        }
+
+
     }
+
+    function resetInputs() {
+        setProductName('');
+        setSize('');
+        setPrice('');
+        setDescription('');
+        setCategory('');
+        setTags('');
+        setProductCondition('');
+        setImage();
+    }
+
     const styles = StyleSheet.create({
         header: {
             flex: 1,
@@ -284,6 +305,7 @@ const NewPost = () => {
                                     placeholderTextColor="black"
                                     maxLength={99}
                                     multiline={true}
+                                    value={productName}
                                     onChangeText={(text) => setProductName(text)}
                                 />
                             </View>
@@ -294,6 +316,7 @@ const NewPost = () => {
                                     placeholder="Size"
                                     placeholderTextColor="black"
                                     enablesReturnKeyAutomatically={true}
+                                    value={size}
                                     onChangeText={(text) => setSize(text)}
                                 />
                             </View>
@@ -305,6 +328,7 @@ const NewPost = () => {
                                     keyboardType="numeric"
                                     placeholderTextColor="black"
                                     maxLength={4}
+                                    value={price}
                                     enablesReturnKeyAutomatically={true}
                                     onChangeText={(text) => setPrice(text)}
                                 />
@@ -320,6 +344,7 @@ const NewPost = () => {
                                             placeholderTextColor="black"
                                             multiline={true}
                                             maxLength={400}
+                                            value={description}
                                             onChangeText={(text) => setDescription(text)}
                                         />
                                     </View>
@@ -331,6 +356,7 @@ const NewPost = () => {
                                             placeholderTextColor="black"
                                             multiline={true}
                                             maxLength={50}
+                                            value={category}
                                             onChangeText={(text) => setCategory(text)}
                                         />
                                     </View>
@@ -342,6 +368,7 @@ const NewPost = () => {
                                             placeholderTextColor="black"
                                             multiline={true}
                                             maxLength={400}
+                                            value={productCondition}
                                             onChangeText={(text) => setProductCondition(text)}
                                         />
                                     </View>
@@ -353,6 +380,7 @@ const NewPost = () => {
                                             placeholderTextColor="black"
                                             multiline={true}
                                             maxLength={60}
+                                            value={tags}
                                             onChangeText={(text) => setTags(text)}
                                         />
                                     </View>

@@ -568,11 +568,16 @@ const MyProfile = () => {
                                         <View className='h-2 w-1/5 bg-slate-400 rounded-3xl' />
                                     </View>
                                     <ScrollView className='flex-[11] h-5/6 w-full'>
-                                        <FlatList
-                                            data={followers}
-                                            renderItem={renderFollowers}
-                                            className='flex-[11] h-5/6 w-full'
-                                        />
+                                            {
+                                                followers.map((item, index) => {
+                                                    return (
+                                                        <View key={index} className='h-20 w-full flex-row items-center justify-between pl-2 pr-4 border border-b-white border-t-white'>
+                                                            <Text style={{ color: 'white' }}>{item.name}</Text>
+                                                            <Image source={{ uri: item.image }} className='h-10 w-10' />
+                                                        </View>
+                                                    )
+                                                })
+                                            }
                                     </ScrollView>
                                 </View>
                             </Modal>
