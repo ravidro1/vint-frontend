@@ -50,6 +50,7 @@ export default function Feed() {
             </View>
         )
     }
+    const [indexCount, setIndexCount] = useState(0);
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = async () => {
         setRefreshing(true)
@@ -57,6 +58,9 @@ export default function Feed() {
         setArray(wishList)
         setRefreshing(false)
         console.log('hi');
+    }
+    const handleAnalytics = () => {
+
     }
     return (
         <View className='flex-1'>
