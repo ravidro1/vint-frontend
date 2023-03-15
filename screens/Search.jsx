@@ -1,8 +1,9 @@
-import { Button, Dimensions, Keyboard, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, Dimensions, Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { useState } from "react";
 import Modal from 'react-native-modal'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
@@ -10,7 +11,7 @@ import axios from "axios";
 export default function Search() {
     const nav = useNavigation()
     const [search, setSearch] = useState('');
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState();
     const [isModalVisible, setModalVisible] = useState(false);
     const toggleModal = () => {
         setModalVisible(!isModalVisible)
@@ -44,10 +45,9 @@ export default function Search() {
     }
 
     return (
-        <View style={{ flex: 1, height: Dimensions.get('window').height - 100 }}
-            className='bg-white flex-1 items-center'>
+        <View style={{ flex: 1, height: Dimensions.get('window').height - 100 }} className='bg-blue-500 flex-1 items-center'>
             <SafeAreaView />
-            <View className='absolute top-0 h-36 w-full pl-4 pr-6 py-6 flex flex-row justify-center items-end bg-blue-500'>
+            <View className='w-full pl-4 pr-6 py-6 flex-[1] flex-row justify-center items-end bg-blue-500'>
                 <View className='flex flex-row items-center'>
                     <TouchableOpacity onPress={toggleModal}><Ionicons name="md-filter" size={24} color="black" /></TouchableOpacity>
                     <View className='flex flex-row justify-start items-center mx-2 w-4/5 h-11 rounded-md bg-slate-200 p-2 overflow-scroll'>
@@ -69,11 +69,24 @@ export default function Search() {
                 animationInTiming={500}
             >
                 <View className='h-1/2 w-screen flex justify-center items-center bg-slate-100 rounded-md self-center'>
-                    <Text>Filters</Text>
+                    <View>
+                        
+                    </View>
                 </View>
             </Modal>
-            <View className='flex flex-row justify-center items-center w-full'>
-                {getResults()}
+            <View className='flex-[9] flex-row justify-center items-center w-full bg-white'>
+                {
+                    results
+                        ?
+                        <ScrollView>
+                            {getResults()}
+                        </ScrollView>
+                        :
+                        <View className='flex flex-row justify-evenly items-center w-3/6 bg-white rounded-md self-center'>
+                            <Text className='text-black text-lg'>No Results</Text>
+                            <MaterialCommunityIcons name="search-web" size={36} color="black" />
+                        </View>
+                }
             </View>
         </View>
     )
