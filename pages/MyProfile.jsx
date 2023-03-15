@@ -38,6 +38,7 @@ const MyProfile = () => {
             axios.post(process.env.REACT_APP_BACKEND_URL + "/user/userinfo", {userID: JSON.parse(userid)}).then((res)=>{
                 setDetails(res.data)
                 console.log(res.data)
+
             });
         }
         load()
@@ -109,108 +110,7 @@ const MyProfile = () => {
         },
     ]
 
-    const followers = [
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-        {
-            name: 'John Doe',
-            image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-        },
-    ]
+
 
     const styles = StyleSheet.create({
         topBar: {
@@ -598,7 +498,7 @@ const MyProfile = () => {
                                     </View>
                                     <ScrollView className='flex-[11] h-5/6 w-full'>
                                             {
-                                                followers.map((item, index) => {
+                                                details?.following.map((item, index) => {
                                                     return (
                                                         <View key={index} className='h-20 w-full flex-row items-center justify-between pl-2 pr-4 border border-b-white border-t-white'>
                                                             <Text style={{ color: 'white' }}>{item.name}</Text>
@@ -630,7 +530,7 @@ const MyProfile = () => {
                                         <View className='h-2 w-1/5 bg-slate-400 rounded-3xl' />
                                     </View>
                                     <FlatList
-                                        data={followers}
+                                        data={details?.following}
                                         renderItem={renderFollowers}
                                         className='flex-[11] h-5/6 w-full'
                                     >
@@ -660,7 +560,7 @@ const MyProfile = () => {
                 <FlatList
                     // className='mr-1'
                     style={styles.postsContainer}
-                    data={formatData(posts, 3)}
+                    data={formatData(details?.userProducts, 3)}
                     renderItem={renderItem}
                     numColumns='3'
                 >
@@ -668,7 +568,7 @@ const MyProfile = () => {
                 <FlatList
                     // className='ml-1'7654
                     style={styles.postsContainer}
-                    data={formatData(posts, 3)}
+                    data={formatData(details?.userProducts, 3)}
                     renderItem={renderItem}
                     numColumns='3'
                 >
