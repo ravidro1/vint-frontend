@@ -26,21 +26,20 @@ function Register({ navigation }) {
         }
         checkToken()
     }, []);
-
     return (
         <View style={{ height: Dimensions.get('window').height }} className="bg-sky-900 items-center">
             <SafeAreaView />
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} className='flex justify-center items-center'>
                 <View className='h-1/4 flex justify-center items-center'>
-                    <Image source={Vlogo} className='mt-12 bg-transparent shadow-md shadow-sky-300/70 ' />
+                    <Image source={Vlogo} className='mt-12 bg-transparent' />
                 </View>
                 <KeyboardAvoidingView behavior='height' enabled={view === 'signIn' ? false : true}>
                     <View className='flex h-3/4 w-5/6 justify-center items-center '>
-                        {view === 'signIn' ? <Login setView={setView} setID={setID} setToken={setToken} setEmail={setEmail}/>
+                        {view === 'signIn' ? <Login setView={setView} setID={setID} setToken={setToken} setEmail={setEmail} />
                             : view === 'signUp' ?
-                                <SignUp setView={setView} setID={setID} setToken={setToken} setEmail={setEmail}/>
+                                <SignUp setView={setView} setID={setID} setToken={setToken} setEmail={setEmail} />
                                 :
-                                <VerifyEmail ID={ID} token={token} email={email}/>
+                                <VerifyEmail ID={ID} token={token} email={email} />
                         }
                     </View>
                 </KeyboardAvoidingView>

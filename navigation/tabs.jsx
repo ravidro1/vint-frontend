@@ -18,12 +18,14 @@ import NewPost from "../pages/NewPost";
 import Profile from "../pages/profile";
 import Details from "../screens/Details";
 import MyProfile from "../pages/MyProfile";
+import Following from "../pages/Following";
 
 
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const Feeds = createMaterialTopTabNavigator();
+const ProfileStack = createNativeStackNavigator();
 
 const FeedStack = () => {
     return (
@@ -38,6 +40,7 @@ const FeedStack = () => {
                 color: 'white',
                 fontSize: 15,
                 fontWeight: 'bold',
+                fontFamily: 'PingFangSC-Medium',
             },
             tabBarIndicatorStyle: {
                 backgroundColor: 'rgb(14, 165, 233)',
@@ -64,19 +67,29 @@ const HomeStack = () => {
     )
 }
 
+const PStack = () => {
+    return (
+        <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
+            <ProfileStack.Screen name="My Profile" component={MyProfile} />
+            <ProfileStack.Screen name="Following" component={Following} />
+        </ProfileStack.Navigator>
+    )
+}
+
 function Tabs({ navigation }) {
-    useEffect(() => {
-        const checkToken = async () => {
-            const token = await AsyncStorage.getItem('token');
-            if (!token) {
-                navigation.navigate('Landing')
-            }
-            else {
-                console.log(token);
-            }
-        }
-        checkToken()
-    }, []);
+    // useEffect(() => {
+    //     const checkToken = async () => {
+    //         const token = await AsyncStorage.getItem('token');
+    //         console.log('whyyyyy' , token);
+    //         if (!token) {
+    //             navigation.navigate('Landing')
+    //         }
+    //         else {
+    //             console.log(token);
+    //         }
+    //     }
+    //     checkToken()
+    // }, [AsyncStorage.getItem('token')])
     return (
         <Tab.Navigator screenOptions={{
             headerShown: false,

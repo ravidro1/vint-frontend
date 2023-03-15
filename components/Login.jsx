@@ -6,10 +6,10 @@ import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Haptics from "expo-haptics";
 
-
-function Login({ setView , setID , setToken, setEmail}) {
-    AsyncStorage.clear()
+function Login({ setView, setID, setToken, setEmail }) {
+    // AsyncStorage.clear()
     const navigation = useNavigation()
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
@@ -44,6 +44,7 @@ function Login({ setView , setID , setToken, setEmail}) {
             const res = await axios.post(process.env.REACT_APP_BACKEND_URL + '/user/forgotPassword', { username: userName })
             console.log(res);
         } catch (error) {
+
             console.log(error);
         }
     }
@@ -51,7 +52,7 @@ function Login({ setView , setID , setToken, setEmail}) {
     const handleSubmit = async () => {
         try {
             const user = await AsyncStorage.getItem('user')
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/login`, { username: userName, password: password });
+            const res = await axios.post(process.env.REACT_APP_BACKEND_URL + `/user/login`, { username: userName, password: password });
             setID(res.data.userID)
             setToken(res.data.token)
             setEmail(res.data.email)
@@ -62,18 +63,33 @@ function Login({ setView , setID , setToken, setEmail}) {
             }
             else {
                 navigation.navigate('Home')
+                setUserName('')
+                setPassword('')
+                console.log('what' , res.data.token);
                 await AsyncStorage.setItem('token', JSON.stringify(res.data.token));
                 await AsyncStorage.setItem('user', JSON.stringify(res.data.userID));
             }
         } catch (error) {
             console.log('error: ', error);
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+            Alert.alert(
+                'Error',
+                error.response.data.message,
+                [
+                    {
+                        text: 'OK', onPress: () => {
+                            setUserName('')
+                            setPassword('')
+                        }
+                    },
+                ])
         }
     }
     return (
         <View className='h-full w-full bg-sky-900 rounded-3xl flex p-3 items-center justify-start mt-24'>
             <Animated.View style={reanimtedStyle}>
-                <TextInput id='input' onChangeText={(e) => setUserName(e)} className="w-[70vw] h-12 rounded-md bg-sky-200 p-2 mb-10 text-left" placeholder='User Name' />
-                <TextInput id='input' onChangeText={(e) => setPassword(e)} className="w-[70vw] h-12 rounded-md bg-sky-200 p-2 text-left" placeholder='Password' />
+                <TextInput id='input' value={userName} onChangeText={(e) => setUserName(e)} className="w-[70vw] h-12 rounded-md bg-sky-200 p-2 mb-10 text-left" placeholder='User Name' />
+                <TextInput id='input' value={password} onChangeText={(e) => setPassword(e)} className="w-[70vw] h-12 rounded-md bg-sky-200 p-2 text-left" placeholder='Password' />
             </Animated.View>
             <TouchableOpacity onPress={handleForgotUser}>
                 <Text className='mb-12 mt-5 text-sky-300'>Forgot Password?</Text>
