@@ -21,6 +21,7 @@ function App() {
           <Stack.Navigator
             screenOptions={{
               headerShown: false,
+              gestureEnabled: false
             }}
           >
             <Stack.Screen name="Landing" component={Landing} />
