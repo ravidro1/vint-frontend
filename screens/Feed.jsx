@@ -41,6 +41,7 @@ export default function Feed() {
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fug'
     },])
     const renderItems = ({ post, index }) => {
+        console.log(index)
         return (
             <View key={index} style={{ flex: 1, height: Dimensions.get('window').height - 200 }}>
                 <Post
@@ -50,6 +51,7 @@ export default function Feed() {
             </View>
         )
     }
+    const [indexCount, setIndexCount] = useState(0);
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = async () => {
         setRefreshing(true)
@@ -57,6 +59,9 @@ export default function Feed() {
         setArray(wishList)
         setRefreshing(false)
         console.log('hi');
+    }
+    const handleAnalytics = () => {
+
     }
     return (
         <View className='flex-1'>

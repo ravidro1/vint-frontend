@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --clear",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web"
@@ -38,7 +38,8 @@
     "react-native-screens": "~3.20.0",
     "react-native-tab-view": "^3.5.1",
     "tailwindcss": "^3.2.7",
-    "expo-image-manipulator": "~11.1.1"
+    "expo-image-manipulator": "~11.1.1",
+    "expo-haptics": "~12.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

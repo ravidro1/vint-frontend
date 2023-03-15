@@ -23,27 +23,22 @@ const Wishlist = () => {
             justifyContent: 'center',
             alignItems: 'center',
         },
-        headerText: {
-            color: 'white',
-            fontSize: 32,
-            fontWeight: 'bold',
-            textDecorationLine: 'underline',
-            fontFamily: 'AvenirNext-Medium',
-        },
         list: {
             height: Dimensions.get('screen').height - 100,
-            width: Dimensions.get('screen').width - 12,
+            width: Dimensions.get('screen').width,
             flex: 1,
             backgroundColor: '#c1ecff',
         },
         post: {
             flex: 1,
+            // display: 'flex',
+            // flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
             height: 200,
             backgroundColor: '#ffffff',
             margin: 3,
-            borderRadius: 4,
+            borderRadius: 20,
             borderWidth: 1,
             borderColor: '#a7a7a7',
         },
@@ -126,10 +121,10 @@ const Wishlist = () => {
 
     return (
         <View style={styles.container}>
-            <SafeAreaView />
+            {/* <SafeAreaView /> */}
             <StatusBar style='light' />
-            <View style={styles.header}>
-                <Text style={styles.headerText}>Wish - List</Text>
+            <View className='h-32 w-full flex justify-end items-center bg-sky-900'>
+                <Text className='text-white font-bold text-3xl mb-5'>Wish List</Text>
             </View>
             <FlatList
                 style={styles.list}

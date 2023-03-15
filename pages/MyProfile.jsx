@@ -1,6 +1,5 @@
 import { View, Text, Alert, StyleSheet, Dimensions, FlatList, Pressable, Image, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
-import { useEffect, useState } from 'react';
-import menuIcon from '../assets/menu.png';
+import { useContext, useEffect, useState } from 'react';
 import Modal from 'react-native-modal';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,10 +11,13 @@ import PersonalInfo from '../components/PersonalInfo';
 import DeleteAccount from '../components/DeleteAccount';
 import * as ImagePicker from 'expo-image-picker';
 import { StatusBar } from 'expo-status-bar';
+import { AppContext } from '../components/AppContext';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const MyProfile = () => {
-
+    const { storageRender, setStorageRender, setPosts, setWishList } =
+        useContext(AppContext);
     const [forSaleTextStyle, setForSaleTextStyle] = useState('');
     const [historyTextStyle, setHistoryTextStyle] = useState('');
     const [profile, setProfile] = useState('For Sale');
@@ -198,12 +200,12 @@ const MyProfile = () => {
 
     const styles = StyleSheet.create({
         topBar: {
-            height: 75,
+            height: 140,
             width: Dimensions.get('screen').width,
             backgroundColor: '#0d243e',
             flexDirection: 'row',
             justifyContent: 'space-between',
-            alignItems: 'center',
+            alignItems: 'flex-end',
             padding: 12,
             position: 'fixed',
             top: 0,
@@ -214,6 +216,7 @@ const MyProfile = () => {
             color: '#ffffff',
             fontSize: 24,
             fontWeight: 'bold',
+            marginBottom: 5,
         },
         touchableHighlight: {
             height: '80%',
@@ -287,7 +290,7 @@ const MyProfile = () => {
         postsContainer: {
             width: Dimensions.get('window').width,
             backgroundColor: '#b2b2b2',
-            height: 360,
+            height: '99.5%',
         },
         profileDetailsTop: {
             height: 120,
@@ -498,23 +501,35 @@ const MyProfile = () => {
             setProfileImage(result.assets[0].uri)
         }
     }
+    const initData = () => {
+        setPosts([]);
+        setWishList([]);
+    };
 
     function showAlert() {
         Alert.alert(
-            'Are You Sure?',
-            '',
+            "Are You Sure?",
+            "",
             [
                 {
-                    text: 'Cancel',
-                    onPress: () => console.log('Cancel Pressed'),
-                    style: 'cancel',
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel",
                 },
-                { text: 'OK', onPress: () => console.log('OK Pressed') },
+                {
+                    text: "OK",
+                    onPress: async () => {
+                        console.log("OK Pressed");
+                        initData();
+                        await AsyncStorage.clear();
+
+                        setStorageRender(!storageRender);
+                    },
+                },
             ],
             { cancelable: true }
-        )
+        );
     }
-
     function toggleFollowersModal() {
         setFollowersModalVisible(!followersmodalVisible);
     }
@@ -525,12 +540,12 @@ const MyProfile = () => {
 
     return (
         <View style={{ height: Dimensions.get('window').height - 100 }}>
-            <SafeAreaView />
+            {/* <SafeAreaView /> */}
             <StatusBar style='dark' />
             <View style={styles.topBar}>
                 <Text style={styles.topBarText}>UserName</Text>
-                <Pressable className='h-full w-20 justify-center items-end' onPressOut={() => toggleModal()}>
-                    <Image source={menuIcon} style={{ height: '80%', width: '50%' }} />
+                <Pressable onPressOut={() => toggleModal()}>
+                    <Ionicons name="menu" size={40} color="white" />
                 </Pressable>
             </View>
             <View style={styles.profileDetails}>
