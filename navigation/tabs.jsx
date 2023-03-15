@@ -8,7 +8,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Feed from "../screens/Feed";
 import FollowingFeed from "../screens/FollowingFeed";
-import Landing from "../screens/Landing";
 
 import {Ionicons, FontAwesome, Entypo, MaterialIcons} from "@expo/vector-icons";
 
@@ -18,14 +17,12 @@ import NewPost from "../pages/NewPost";
 import Profile from "../pages/profile";
 import Details from "../screens/Details";
 import MyProfile from "../pages/MyProfile";
-import Following from "../pages/Following";
 import {AppContext} from "../components/AppContext";
 import axios from "axios";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const Feeds = createMaterialTopTabNavigator();
-const ProfileStack = createNativeStackNavigator();
 
 const FeedStack = () => {
   return (
@@ -54,27 +51,17 @@ const FeedStack = () => {
     >
       <Feeds.Screen name="FOR YOU" component={Feed} />
       <Feeds.Screen name="FOLLOWING" component={FollowingFeed} />
-      {/* <Feeds.Screen name="details" options={{tabBarVisible: false}} component={Details} /> */}
     </Feeds.Navigator>
   );
 };
 
 const HomeStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator screenOptions={{gestureEnabled:false,headerShown: false}}>
       <Stack.Screen name="Feeds" component={FeedStack} />
       <Stack.Screen name="Details" component={Details} />
       <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
-  );
-};
-
-const PStack = () => {
-  return (
-    <ProfileStack.Navigator screenOptions={{headerShown: false}}>
-      <ProfileStack.Screen name="My Profile" component={MyProfile} />
-      <ProfileStack.Screen name="Following" component={Following} />
-    </ProfileStack.Navigator>
   );
 };
 

@@ -189,7 +189,7 @@ const Profile = ({ route, navigation }) => {
             width: Dimensions.get('screen').width + 35,
             backgroundColor: '#0d243e',
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-start',
             alignItems: 'center',
             padding: 12,
             position: 'fixed',
@@ -387,8 +387,10 @@ const Profile = ({ route, navigation }) => {
         <View style={{ height: Dimensions.get('window').height - 100 }}>
             <SafeAreaView />
             <View style={styles.topBar}>
-
-                <Text style={styles.topBarText}>{post.seller}</Text>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name="arrow-back-circle" size={30} color="white" />
+                </TouchableOpacity>
+                <Text className='ml-4' style={styles.topBarText}>{post.seller}</Text>
             </View>
             <View style={styles.profileDetails}>
                 <View style={styles.profileDetailsTop}>
@@ -459,7 +461,7 @@ const Profile = ({ route, navigation }) => {
                     </View>
                 </View>
                 <View style={styles.profileDetailsMid}>
-
+                    <TouchableOpacity className='bg-white h-8 w-1/2 rounded-md flex justify-center items-center'><Text className='font-bold text-sky-900'>Follow</Text></TouchableOpacity>
                 </View>
                 <View style={styles.profileDetailsBottom}>
                     <Pressable style={styles.pressableArea} onPress={() => setProfileType('For Sale')}>
