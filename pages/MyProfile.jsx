@@ -567,12 +567,13 @@ const MyProfile = () => {
                                     <View className='flex-[1] justify-center items-center'>
                                         <View className='h-2 w-1/5 bg-slate-400 rounded-3xl' />
                                     </View>
-                                    <FlatList
-                                        data={followers}
-                                        renderItem={renderFollowers}
-                                        className='flex-[11] h-5/6 w-full'
-                                    >
-                                    </FlatList>
+                                    <ScrollView className='flex-[11] h-5/6 w-full'>
+                                        <FlatList
+                                            data={followers}
+                                            renderItem={renderFollowers}
+                                            className='flex-[11] h-5/6 w-full'
+                                        />
+                                    </ScrollView>
                                 </View>
                             </Modal>
                         </TouchableOpacity>
