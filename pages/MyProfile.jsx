@@ -13,6 +13,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { StatusBar } from 'expo-status-bar';
 import { AppContext } from '../components/AppContext';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 
 const MyProfile = () => {
@@ -27,7 +28,20 @@ const MyProfile = () => {
     const [settingVisible, setSettingVisible] = useState(false);
     const [settingsType, setSettingsType] = useState('');
     const [profileImage, setProfileImage] = useState(null);
+    const [details,setDetails] = useState()
 
+    useEffect (()=>{
+
+        async function load(){
+            console.log(await AsyncStorage.getItem("user"))
+            const userid = await AsyncStorage.getItem("user")
+            axios.post(process.env.REACT_APP_BACKEND_URL + "/user/userinfo", {userID: JSON.parse(userid)}).then((res)=>{
+                setDetails(res.data)
+                console.log(res.data)
+            });
+        }
+        load()
+    },[])
     const posts = [
         {
             productName: 't-shirt',
@@ -543,7 +557,7 @@ const MyProfile = () => {
             {/* <SafeAreaView /> */}
             <StatusBar style='dark' />
             <View style={styles.topBar}>
-                <Text style={styles.topBarText}>UserName</Text>
+                <Text style={styles.topBarText}>{details?.name}</Text>
                 <Pressable onPressOut={() => toggleModal()}>
                     <Ionicons name="menu" size={40} color="white" />
                 </Pressable>
@@ -562,11 +576,11 @@ const MyProfile = () => {
                         </TouchableOpacity>
                         <View style={styles.numbersText}>
                             <Text style={styles.profileDetailsBottomText}>Posts</Text>
-                            <Text style={styles.profileDetailsBottomText}>{posts.length}</Text>
+                            <Text style={styles.profileDetailsBottomText}>{details?.userProducts.length}</Text>
                         </View>
                         <TouchableOpacity style={styles.numbersText} onPressOut={() => toggleFollowersModal()}>
                             <Text style={styles.profileDetailsBottomText}>Followers</Text>
-                            <Text style={styles.profileDetailsBottomText}>{followers.length}</Text>
+                            <Text style={styles.profileDetailsBottomText}>{details?.followersCounter}</Text>
                             <Modal
                                 isVisible={followersmodalVisible}
                                 onBackdropPress={() => toggleFollowersModal}
@@ -599,7 +613,7 @@ const MyProfile = () => {
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.numbersText} onPressOut={() => toggleFollowingModal()}>
                             <Text style={styles.profileDetailsBottomText}>Following</Text>
-                            <Text style={styles.profileDetailsBottomText}>{followers?.length}</Text>
+                            <Text style={styles.profileDetailsBottomText}>{details?.following?.length}</Text>
                             <Modal
                                 isVisible={followingmodalVisible}
                                 onBackdropPress={() => toggleFollowingModal()}
