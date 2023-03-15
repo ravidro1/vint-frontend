@@ -52,7 +52,7 @@ export default function Feed() {
                 setFeed(res.data)
             } catch (error) {
                 console.log('feed error: ' , error)
-                alert('There has been a problem')
+                // alert('There has been a problem')
             }
         }
         getProducts()

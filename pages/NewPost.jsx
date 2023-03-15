@@ -157,7 +157,6 @@ const NewPost = () => {
                 setImageSum(image.length)
             }
         }
-
         countImages();
         toggleMainPhoto()
     }, [image])

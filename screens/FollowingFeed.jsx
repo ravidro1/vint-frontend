@@ -54,7 +54,7 @@ export default function FollowingFeed() {
             <View key={index} style={{ flex: 1, height: Dimensions.get('window').height - 200 }}>
                 <Post
                     post={followingArray[index]}
-                    navigation={navigation}
+                    navigation={navigation} 
                 />
             </View>
         )
