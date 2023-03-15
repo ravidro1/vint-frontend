@@ -10,6 +10,7 @@ import Wishlist from "./pages/Wishlist";
 import Context from "./components/AppContext";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import VerifyEmail from "./components/VerifyEmail";
+import HelloScreen from "./screens/HelloScreen";
 
 function App() {
   const Stack = createNativeStackNavigator();
@@ -24,6 +25,7 @@ function App() {
               gestureEnabled: false
             }}
           >
+            <Stack.Screen name="HelloScreen" component={HelloScreen} />
             <Stack.Screen name="Landing" component={Landing} />
             <Stack.Screen name="Home" component={Tabs} />
           </Stack.Navigator>

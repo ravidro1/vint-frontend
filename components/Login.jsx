@@ -62,10 +62,8 @@ function Login({setView, setID, setToken, setEmail}) {
 
   const handleSubmit = async () => {
     try {
-      console.log(process.env.REACT_APP_BACKEND_URL + `/user/login`);
-
       const res = await axios.post(
-        process.env.REACT_APP_BACKEND_URL + `/user/login`,
+        `${process.env.REACT_APP_BACKEND_URL}/user/login`,
         {username: userName, password: password}
       );
       setID(res.data.userID);
