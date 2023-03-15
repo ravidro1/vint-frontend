@@ -21,8 +21,8 @@ function App() {
           <Stack.Navigator screenOptions={{
             headerShown: false
           }}>
-            <Stack.Screen name="Landing" component={Landing} />
             <Stack.Screen name="Home" component={Tabs} />
+            <Stack.Screen name="Landing" component={Landing} />
           </Stack.Navigator>
         </View>
       </Context>
