@@ -28,31 +28,49 @@ const NewPost = () => {
     const [size, setSize] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('');
-    const [tags, setTags] = useState('');
-    const [productCondition, setProductCondition] = useState('');
     const isBid = false;
 
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
+    const [openCategoryPicker, setOpenCategoryPicker] = useState(false);
+    const [CategoryValue, setCategoryValue] = useState(null);
+    const categories = [
+        // { label: 'any', value: '' },
+        { label: 'T-shirts', value: 'T-shirts' },
+        { label: 'Jackets', value: 'Jackets' },
+        { label: 'Long-Sleeve', value: 'Long-Sleeve' },
+        { label: 'Pants', value: 'Pants' },
+        { label: 'Shorts', value: 'Shorts' },
+        { label: 'Shoes', value: 'banana' },
+        { label: 'Hats', value: 'Hats' },
+    ];
 
-    const [items, setItems] = useState([
-        { label: 'North America', value: 'na' },
-        { label: 'United States', value: 'usa', parent: 'na' },
-        { label: 'Canada', value: 'canada', parent: 'na' },
+    const [openConditionPicker, setOpenConditionPicker] = useState(false);
+    const [ConditionValue, setConditionValue] = useState(null);
+    const conditions = [
+        // { label: 'any', value: '' },
+        { label: 'Brand New', value: 'Brand New' },
+        { label: 'As New', value: 'As New' },
+        { label: 'Used', value: 'Used' },
+        { label: 'Repair Needed', value: 'Repair Needed' },
+    ];
 
-        { label: 'Europe', value: 'eu' },
-        { label: 'Norway', value: 'norway', parent: 'eu' },
-        { label: 'Belgium', value: 'belgium', parent: 'eu' },
-    ]);
+    const [openTagsPicker, setOpenTagsPicker] = useState(false);
+    const [TagsValue, setTagsValue] = useState(null);
+    const tagsInput = [
+        // { label: 'any', value: '' },
+        { label: 'Vintage', value: 'Vintage' },
+        { label: 'Trendy', value: 'Trendy' },
+        { label: 'Homemade', value: 'Homemade' },
+        { label: 'Brandless', value: 'Brandless' },
+        { label: 'Oversize', value: 'Oversize' },
+        { label: 'Branded', value: 'Branded' },
+    ];
+
 
     async function Submit() {
-        const parts = image.split('.');
-        console.log(parts[parts.length - 1]);
-        console.log("----------------------------------hey");
         console.log(image);
-        console.log(mimetype);
-        console.log(imageSize);
+        console.log(TagsValue);
+        console.log(ConditionValue);
+        console.log(CategoryValue);
         // console.log(base64Image);
         console.log(await AsyncStorage.getItem('user'));
         // console.log(await Share.shareAsync(image));
@@ -65,15 +83,15 @@ const NewPost = () => {
                 productMedia: [
                     {
                         url: image,
-                        type: `image/${parts[parts?.length - 1]}`,
+                        type: `image`,
                         size: imageSize
                     }
                 ],
                 userId: JSON.parse(await AsyncStorage.getItem('user')),
                 onBid: isBid,
-                productCategory: category,
-                productCondition: productCondition,
-                tags: tags,
+                productCategory: CategoryValue,
+                productCondition: ConditionValue,
+                tags: TagsValue,
             })
             console.log(res.data);
             resetInputs();
@@ -86,13 +104,13 @@ const NewPost = () => {
     }
 
     function resetInputs() {
-        setProductName('');
-        setSize('');
-        setPrice('');
-        setDescription('');
-        setCategory('');
-        setTags('');
-        setProductCondition('');
+        setProductName();
+        setSize();
+        setPrice();
+        setDescription();
+        setTagsValue();
+        setCategoryValue();
+        setConditionValue();
         setImage();
     }
 
@@ -337,7 +355,7 @@ const NewPost = () => {
                     <Text className='font-semibold text-xl'>Product Details</Text>
                     <ScrollView className='w-11/12 border-t-[1] border-t'>
                         <View className='w-full h-full flex-col justify-start items-center'>
-                            <View className='w-full h-24 flex-row justify-evenly items-center'>
+                            <View className='w-full h-32 flex-row justify-evenly items-center'>
                                 <Ionicons name="ios-shirt" size={32} color="black" />
                                 <TextInput
                                     className='w-3/5 h-14 border rounded-md px-2 justify-start items-start border-gray-300'
@@ -349,7 +367,7 @@ const NewPost = () => {
                                     onChangeText={(text) => setProductName(text)}
                                 />
                             </View>
-                            <View className='w-full h-24 flex-row justify-evenly items-center'>
+                            <View className='w-full h-32 flex-row justify-evenly items-center'>
                                 <Entypo name="price-tag" size={30} color="black" />
                                 <TextInput
                                     className='w-3/5 h-14 border rounded-md px-2 justify-start items-start border-gray-300'
@@ -360,7 +378,7 @@ const NewPost = () => {
                                     onChangeText={(text) => setSize(text)}
                                 />
                             </View>
-                            <View className='w-full h-24 flex-row justify-evenly items-center'>
+                            <View className='w-full h-32 flex-row justify-evenly items-center'>
                                 <FontAwesome5 name="coins" size={30} color="black" />
                                 <TextInput
                                     className='w-3/5 h-14 border rounded-md px-2 justify-start items-start border-gray-300'
@@ -376,7 +394,7 @@ const NewPost = () => {
                             {
                                 advanced &&
                                 <View className='w-full justify-center items-center'>
-                                    <View className='w-full h-24 flex-row justify-evenly items-center'>
+                                    <View className='w-full h-48 flex-row justify-evenly items-center'>
                                         <MaterialIcons name="edit" size={30} color="black" />
                                         <TextInput
                                             className='w-3/5 h-14 border rounded-md px-2 justify-start items-start border-gray-300'
@@ -388,50 +406,66 @@ const NewPost = () => {
                                             onChangeText={(text) => setDescription(text)}
                                         />
                                     </View>
-                                    <View className='w-full h-24 flex-row justify-evenly items-center'>
+                                    <View className='w-full h-48 flex-row justify-evenly items-center'>
                                         <MaterialIcons name="category" size={24} color="black" />
-                                        <TextInput
-                                            className='w-3/5 h-14 border rounded-md px-2 justify-start items-start border-gray-300'
-                                            placeholder="Category"
-                                            placeholderTextColor="black"
-                                            multiline={true}
-                                            maxLength={50}
-                                            value={category}
-                                            onChangeText={(text) => setCategory(text)}
-                                        />
-                                        {/* <DropDownPicker
-                                            className='w-3/5 h-14 border rounded-md justify-start items-start border-gray-300'
-                                            open={open}
-                                            value={value}
-                                            items={items}
-                                            setOpen={setOpen}
-                                            setValue={setValue}
-                                            setItems={setItems}
-                                        /> */}
+                                        <View className='w-3/5 items-center justify-center'>
+                                            <DropDownPicker
+                                                className='w-full h-14 border rounded-md px-2 justify-center items-center border-gray-300'
+                                                placeholder="any"
+                                                open={openCategoryPicker}
+                                                value={CategoryValue}
+                                                items={categories}
+                                                setOpen={setOpenCategoryPicker}
+                                                setValue={setCategoryValue}
+                                                max={1}
+                                                maxHeight={120}
+                                                onChangeValue={(value) => {
+                                                    setCategoryValue(value)
+                                                }}
+                                            />
+                                        </View>
                                     </View>
-                                    <View className='w-full h-24 flex-row justify-evenly items-center'>
+                                    <View className='w-full h-48 flex-row justify-evenly items-center'>
                                         <Entypo name="new" size={24} color="black" />
-                                        <TextInput
-                                            className='w-3/5 h-14 border rounded-md px-2 justify-start items-start border-gray-300'
-                                            placeholder="Condition"
-                                            placeholderTextColor="black"
-                                            multiline={true}
-                                            maxLength={400}
-                                            value={productCondition}
-                                            onChangeText={(text) => setProductCondition(text)}
-                                        />
+                                        <View className='w-3/5 items-center justify-center'>
+                                            <DropDownPicker
+                                                className='w-full h-14 border rounded-md px-2 justify-center items-center border-gray-300'
+                                                placeholder="any"
+                                                open={openConditionPicker}
+                                                value={ConditionValue}
+                                                items={conditions}
+                                                setOpen={setOpenConditionPicker}
+                                                setValue={setConditionValue}
+                                                max={1}
+                                                maxHeight={120}
+                                                onChangeValue={(value) => {
+                                                    setConditionValue(value)
+                                                }}
+                                            />
+                                        </View>
                                     </View>
-                                    <View className='w-full h-24 flex-row justify-evenly items-center'>
+                                    <View className='w-full h-48 flex-row justify-evenly items-start mt-16'>
                                         <Fontisto name="hashtag" size={24} color="black" />
-                                        <TextInput
-                                            className='w-3/5 h-14 border rounded-md px-2 justify-start items-start border-gray-300'
-                                            placeholder="Tags"
-                                            placeholderTextColor="black"
-                                            multiline={true}
-                                            maxLength={60}
-                                            value={tags}
-                                            onChangeText={(text) => setTags(text)}
-                                        />
+                                        <View className='w-3/5 items-center justify-center'>
+                                            <DropDownPicker
+                                                className='w-full h-14 border rounded-md px-2 justify-center items-center border-gray-300'
+                                                placeholder="any"
+                                                open={openTagsPicker}
+                                                value={TagsValue}
+                                                items={tagsInput}
+                                                setOpen={setOpenTagsPicker}
+                                                setValue={setTagsValue}
+                                                multiple={true}
+                                                max={3}
+                                                autoScroll={true}
+                                                mode="BADGE"
+                                                badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a"]}
+                                                maxHeight={120}
+                                                onChangeValue={(value) => {
+                                                    setTagsValue(value)
+                                                }}
+                                            />
+                                        </View>
                                     </View>
                                     {/* <View className='w-full h-32 flex-col items-center justify-evenly'>
                                         <Text className='text-lg'>Additional Photos</Text>

@@ -49,7 +49,6 @@ export default function Search() {
         { label: 'Brandless', value: 'Brandless' },
         { label: 'Oversize', value: 'Oversize' },
         { label: 'Branded', value: 'Branded' },
-        { label: 'Brandless', value: 'Brandless' },
     ];
 
     useEffect(() => {
