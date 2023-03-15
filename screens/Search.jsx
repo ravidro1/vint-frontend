@@ -99,30 +99,30 @@ export default function Search() {
             return (
                 <TouchableOpacity key={index} className='w-full h-28 flex-row justify-evenly items-center px-4 border-t border-neutral-900 bg-white'>
                     <View className='flex-1 h-full justify-evenly'>
-                        <View className='w-1/2 flex-row items-center justify-between'>
-                            <Ionicons name="ios-shirt" size={12} color="black" />
-                            <Text className='text-black '>{result.category}</Text>
+                        <View className='w-3/4 flex-row items-center justify-between'>
+                            <Ionicons name="ios-shirt" size={16} color="black" />
+                            <Text className='text-black font-medium'>{result.category}</Text>
                         </View>
-                        <View className='w-1/2 flex-row items-center justify-between'>
-                            <Entypo name="price-tag" size={12} color="black" />
-                            <Text className='text-black '>{result.size}</Text>
+                        <View className='w-3/4 flex-row items-center justify-between'>
+                            <Entypo name="price-tag" size={16} color="black" />
+                            <Text className='text-black font-medium'>{result.size}</Text>
                         </View>
                     </View>
                     <View className='flex-1 h-full justify-evenly'>
-                        <View className='w-1/2 flex-row items-center justify-between'>
-                            <FontAwesome5 name="coins" size={12} color="black" />
-                            <Text className='text-black '>{result.price}$</Text>
+                        <View className='w-3/4 flex-row items-center justify-between'>
+                            <FontAwesome5 name="coins" size={16} color="black" />
+                            <Text className='text-black font-medium'>{result.price}$</Text>
                         </View>
-                        <View className='w-1/2 flex-row items-center justify-between'>
-                            <Entypo name="new" size={12} color="black" />
-                            <Text className='text-black '>{result.category}</Text>
+                        <View className='w-3/4 flex-row items-center justify-between'>
+                            <Entypo name="new" size={16} color="black" />
+                            <Text className='text-black font-medium'>{result.condition}</Text>
                         </View>
                     </View>
                     <View className='flex-1 h-full items-center justify-center'>
                         {
                             result.media[0].url
                                 ?
-                                <Image source={{uri: result.media[0].url}} className='h-4/5 w-fit'/>
+                                <Image source={{uri: result.media[0].url}} className='h-4/5 w-1/2 rounded-md'/>
                                 :
                                 <Octicons name="image" size={42} color="black" />
                         }
@@ -217,7 +217,7 @@ export default function Search() {
                     </TouchableOpacity>
                 </View>
             </Modal>
-            <View className='flex-[9] flex-row justify-center items-center w-full bg-slate-200'>
+            <View className='flex-[9] justify-start items-center w-full bg-slate-200'>
                 {
                     results
                         ?
