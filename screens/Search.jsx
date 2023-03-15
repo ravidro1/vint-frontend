@@ -10,7 +10,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5, Entypo, Octicons } from '@expo/vector-icons';
 
-export default function Search() {
+export default function Search({navigation}) {
     const nav = useNavigation()
     const [search, setSearch] = useState('');
     const [results, setResults] = useState();
@@ -97,7 +97,7 @@ export default function Search() {
     function getResults() {
         return results.map((result, index) => {
             return (
-                <TouchableOpacity key={index} className='w-full h-28 flex-row justify-evenly items-center px-4 border-t border-neutral-900 bg-white'>
+                <TouchableOpacity key={index} onPress={() => navigation.navigate('Details' , {result: result})} className='w-full h-28 flex-row justify-evenly items-center px-4 border-t border-neutral-900 bg-white'>
                     <View className='flex-1 h-full justify-evenly'>
                         <View className='w-3/4 flex-row items-center justify-between'>
                             <Ionicons name="ios-shirt" size={16} color="black" />

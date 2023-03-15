@@ -1,15 +1,15 @@
-import {StyleSheet, View} from "react-native";
-import React, {useContext, useEffect} from "react";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {createDrawerNavigator} from "@react-navigation/drawer";
-import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
+import { StyleSheet, View } from "react-native";
+import React, { useContext, useEffect } from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Feed from "../screens/Feed";
 import FollowingFeed from "../screens/FollowingFeed";
 
-import {Ionicons, FontAwesome, Entypo, MaterialIcons} from "@expo/vector-icons";
+import { Ionicons, FontAwesome, Entypo, MaterialIcons } from "@expo/vector-icons";
 
 import Search from "../screens/Search";
 import Wishlist from "../pages/Wishlist";
@@ -17,12 +17,13 @@ import NewPost from "../pages/NewPost";
 import Profile from "../pages/profile";
 import Details from "../screens/Details";
 import MyProfile from "../pages/MyProfile";
-import {AppContext} from "../components/AppContext";
+import { AppContext } from "../components/AppContext";
 import axios from "axios";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const Feeds = createMaterialTopTabNavigator();
+const SearchStack = createNativeStackNavigator();
 
 const FeedStack = () => {
   return (
@@ -57,7 +58,7 @@ const FeedStack = () => {
 
 const HomeStack = () => {
   return (
-    <Stack.Navigator screenOptions={{gestureEnabled:false,headerShown: false}}>
+    <Stack.Navigator screenOptions={{ gestureEnabled: false, headerShown: false }}>
       <Stack.Screen name="Feeds" component={FeedStack} />
       <Stack.Screen name="Details" component={Details} />
       <Stack.Screen name="Profile" component={Profile} />
@@ -65,8 +66,17 @@ const HomeStack = () => {
   );
 };
 
-function Tabs({navigation}) {
-  const {storageRender} = useContext(AppContext);
+const SearchSt = () => {
+  return (
+    <SearchStack.Navigator screenOptions={{ gestureEnabled: false, headerShown: false }}>
+      <SearchStack.Screen name='Search' component={Search} />
+      <SearchStack.Screen name='det' component={Details} />
+    </SearchStack.Navigator>
+  )
+}
+
+function Tabs({ navigation }) {
+  const { storageRender } = useContext(AppContext);
 
   useEffect(() => {
     const checkToken = async () => {
@@ -121,7 +131,7 @@ function Tabs({navigation}) {
         name="Feed"
         component={HomeStack}
         options={{
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <View className="flex justify-center items-center">
               <Entypo name="shop" size={35} color={color} />
             </View>
@@ -130,9 +140,9 @@ function Tabs({navigation}) {
       />
       <Tab.Screen
         name="Search"
-        component={Search}
+        component={SearchSt}
         options={{
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <View className="flex justify-center items-center">
               <FontAwesome name="search" size={35} color={color} />
             </View>
@@ -143,7 +153,7 @@ function Tabs({navigation}) {
         name="Landing"
         component={NewPost}
         options={{
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <View className="flex justify-center items-center">
               <FontAwesome name="plus-square" size={35} color={color} />
             </View>
@@ -154,7 +164,7 @@ function Tabs({navigation}) {
         name="Post"
         component={Wishlist}
         options={{
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <View className="flex justify-center items-center">
               <MaterialIcons name="favorite" size={38} color={color} />
             </View>
@@ -165,7 +175,7 @@ function Tabs({navigation}) {
         name="Profile"
         component={MyProfile}
         options={{
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <View className="flex justify-center items-center">
               <FontAwesome name="user-circle-o" size={35} color={color} />
             </View>
