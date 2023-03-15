@@ -64,7 +64,7 @@ const NewPost = () => {
                 productPrice: price,
                 productMedia: [
                     {
-                        url: base64Image,
+                        url: image,
                         type: `image/${parts[parts?.length - 1]}`,
                         size: imageSize
                     }

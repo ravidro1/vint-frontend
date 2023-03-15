@@ -5,18 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="27ff9d48-c22b-446f-a731-6eb150866a54" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../vint.com-backend/MicroServices/analytics/controllers/analyticsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/../vint.com-backend/MicroServices/analytics/controllers/analyticsController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vint.com-backend/controllers/productController.js" beforeDir="false" afterPath="$PROJECT_DIR$/../vint.com-backend/controllers/productController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/MyProfile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/MyProfile.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/NewPost.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/NewPost.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "node.js.selected.package.tslint": "(autodetect)"
+    "node.js.selected.package.tslint": "(autodetect)",
+    "ts.external.directory.path": "C:\\Users\\Netanel\\AppData\\Local\\JetBrains\\Toolbox\\apps\\WebStorm\\ch-0\\223.8836.27\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external"
   }
 }]]></component>
   <component name="RunManager">
