@@ -1,4 +1,4 @@
-import { Button, Dimensions, Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, Dimensions, Picker, Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { useState } from "react";
 import Modal from 'react-native-modal'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -21,8 +21,8 @@ export default function Search() {
         const userId = await AsyncStorage.getItem('userId');
 
         try {
-            console.log(process.env.REACT_APP_BACKEND_ANALYTICS_URL + 'search');
-            const res = await axios.post(process.env.REACT_APP_BACKEND_ANALYTICS_URL + 'search', {
+            console.log(process.env.REACT_APP_BACKEND_ANALYTICS_URL + '/search');
+            const res = await axios.post(process.env.REACT_APP_BACKEND_ANALYTICS_URL + '/search', {
                 userId: userId,
                 input: search
             })
@@ -38,7 +38,7 @@ export default function Search() {
         return results.map((result, index) => {
             return (
                 <TouchableOpacity key={index} className='w-full h-20'>
-
+                    <Text>{result.category}</Text>
                 </TouchableOpacity>
             )
         })
@@ -70,7 +70,7 @@ export default function Search() {
             >
                 <View className='h-1/2 w-screen flex justify-center items-center bg-slate-100 rounded-md self-center'>
                     <View>
-                        
+
                     </View>
                 </View>
             </Modal>
