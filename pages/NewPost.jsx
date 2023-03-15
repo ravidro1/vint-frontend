@@ -52,6 +52,7 @@ const NewPost = () => {
             productCondition: productCondition,
             tags: tags,
         })
+        console.log(res.data)
     }
     const styles = StyleSheet.create({
         header: {
