@@ -12,11 +12,15 @@ import { FontAwesome5, Entypo } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import DropDownPicker from 'react-native-dropdown-picker';
+import * as FileSystem from 'expo-file-system';
 
 const NewPost = () => {
 
     const [image, setImage] = useState();
+    const [base64Image, setBase64Image] = useState();
+    const [imageSize, setImageSize] = useState();
+    const [mimetype, setMimetype] = useState();
     const [imageSum, setImageSum] = useState(null);
     const [mainPhoto, setMainPhoto] = useState('flex');
     const [advanced, setAdvanced] = useState(false);
@@ -29,13 +33,30 @@ const NewPost = () => {
     const [productCondition, setProductCondition] = useState('');
     const isBid = false;
 
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(null);
 
+    const [items, setItems] = useState([
+        { label: 'North America', value: 'na' },
+        { label: 'United States', value: 'usa', parent: 'na' },
+        { label: 'Canada', value: 'canada', parent: 'na' },
+
+        { label: 'Europe', value: 'eu' },
+        { label: 'Norway', value: 'norway', parent: 'eu' },
+        { label: 'Belgium', value: 'belgium', parent: 'eu' },
+    ]);
 
     async function Submit() {
-        const userId = await AsyncStorage.getItem('user');
+        const parts = image.split('.');
+        console.log(parts[parts.length - 1]);
         console.log("----------------------------------hey");
+        console.log(image);
+        console.log(mimetype);
+        console.log(imageSize);
+        // console.log(base64Image);
         console.log(await AsyncStorage.getItem('user'));
-        console.log(productName, size, price, description)
+        // console.log(await Share.shareAsync(image));
+        console.log(productName, size, price, description, image)
         try {
             const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/product/createproduct`, {
                 productName,
@@ -43,8 +64,9 @@ const NewPost = () => {
                 productPrice: price,
                 productMedia: [
                     {
-                        url: image,
-                        type: 'image/jpeg'
+                        url: base64Image,
+                        type: `image/${parts[parts?.length - 1]}`,
+                        size: imageSize
                     }
                 ],
                 userId: JSON.parse(await AsyncStorage.getItem('user')),
@@ -194,6 +216,16 @@ const NewPost = () => {
         }
     }
 
+    // async function shareFile() {
+    //     const fileUri = 'asset:/path/to/file.txt';
+    //     const result = await Share.shareAsync(fileUri);
+    //     if (result.action === Share.sharedAction) {
+    //         console.log('File shared successfully');
+    //     } else if (result.action === Share.dismissedAction) {
+    //         console.log('Share dialog dismissed');
+    //     }
+    // }
+
     const takePhotoFromCamera = async () => {
         const result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -201,12 +233,15 @@ const NewPost = () => {
             aspect: [16, 9],
             quality: 1,
         })
-        console.log(result);
+        console.log(result.assets[0].uri);
 
         if (result) {
             setImage(result.assets[0].uri);
+            setBase64Image(base64Image);
+            setImageSize(result.assets[0].fileSize);
         }
     }
+
     const choosePhotoFromLibrary = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -216,9 +251,15 @@ const NewPost = () => {
         })
 
         console.log(result.assets[0].uri);
+        console.log(result);
 
         if (result) {
+            let base64Image = await FileSystem.readAsStringAsync(result.assets[0].uri, {
+                encoding: FileSystem.EncodingType.Base64,
+            });
             setImage(result.assets[0].uri);
+            setBase64Image(base64Image);
+            setImageSize(result.assets[0].fileSize);
         }
     }
 
@@ -359,6 +400,15 @@ const NewPost = () => {
                                             value={category}
                                             onChangeText={(text) => setCategory(text)}
                                         />
+                                        {/* <DropDownPicker
+                                            className='w-3/5 h-14 border rounded-md justify-start items-start border-gray-300'
+                                            open={open}
+                                            value={value}
+                                            items={items}
+                                            setOpen={setOpen}
+                                            setValue={setValue}
+                                            setItems={setItems}
+                                        /> */}
                                     </View>
                                     <View className='w-full h-24 flex-row justify-evenly items-center'>
                                         <Entypo name="new" size={24} color="black" />
