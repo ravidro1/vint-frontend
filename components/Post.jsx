@@ -9,7 +9,13 @@ const Post = (props) => {
     const [fav, setFav] = useState('white')
     const { wishList, setWishList } = useContext(AppContext)
     const { post, navigation } = props
-    const image = { uri: post.img }    
+    const [image,setImage] = useState(false)
+   useEffect(()=> {
+    setImage()
+       console.log(image)
+   },[])
+
+
     const addToWishList = (post) => {
         const index = wishList.indexOf(post);
         if (index !== -1) {
@@ -60,10 +66,12 @@ const Post = (props) => {
         like === 'white'? setLike('red') : setLike('white')
         Haptics.notificationAsync(Haptics.ImpactFeedbackStyle.Success)
     }
+    console.log("this is post", post)
     return (
         <View style={{ flex: 1, height: Dimensions.get('window').height - 100 }} className='flex justify-center overflow-scroll border-b-2 border-b-black'>
             <Pressable onPress={handleDoublePress}>
-                <Image source={image} resizeMode='cover' className='h-[100vh]' />
+                <Image source={{uri: post?.media[0]?.url}} resizeMode='cover' className='h-[100vh]' />
+                    
                 {showHeart && <MaterialIcons name="favorite" color="white" style={styles.heart} />}
             </Pressable>
             <View className='absolute w-1/6 h-1/3 bottom-5 right-2  rounded-full flex justify-around items-center'>
