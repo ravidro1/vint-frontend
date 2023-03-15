@@ -1,10 +1,11 @@
 import { Dimensions, FlatList, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Post from "../components/Post";
 import { useNavigation } from "@react-navigation/native";
 
 
 export default function FollowingFeed() {
+    const [followingFeed, setFollowingFeed] = useState([]);
     const navigation = useNavigation();
     const followingArray = [{
         img: "https://images.pexels.com/photos/1232459/pexels-photo-1232459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
@@ -34,6 +35,20 @@ export default function FollowingFeed() {
         price: '40₪',
         images: [],
     },]
+
+    // useEffect(() => {
+    //     const getProducts = async () => {
+    //         try {
+    //             const res = await axios.post(`${process.env.REACT_APP_BACKEND_ANALYTICS_URL}/getFollowingFeed`)
+    //             console.log('feed', res.data);
+    //             setFollowingFeed(res.data)
+    //         } catch (error) {
+    //             console.log('feed error: ', error);
+    //         }
+    //     }
+    //     getProducts()
+    // }, []);
+
     const renderItems = ({ post, index }) => {
         return (
             <View key={index} style={{ flex: 1, height: Dimensions.get('window').height - 200 }}>

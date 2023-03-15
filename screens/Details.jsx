@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { AppContext } from "../components/AppContext";
 
-import { Ionicons, FontAwesome5, Entypo } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5, Entypo, Fontisto } from '@expo/vector-icons';
 
 export default function Details({ route, navigation }) {
     const { post } = route.params
@@ -25,7 +25,7 @@ export default function Details({ route, navigation }) {
                 <Ionicons name="arrow-back-circle" size={40} color={darkBlue} />
             </Pressable>
             <Pressable onPress={() => navigation.goBack()} className='absolute right-6 top-11'>
-                <Ionicons name="chatbubble-ellipses" size={37} color={darkBlue} />
+                <Fontisto name="whatsapp" size={34} color={darkBlue} />
             </Pressable>
             <View className='w-[85vw]'>
                 <View className='flex flex-row justify-around mb-4 mt-6'>
