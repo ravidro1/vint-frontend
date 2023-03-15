@@ -6,15 +6,17 @@ import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Fontisto } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5, Entypo } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const NewPost = () => {
 
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState();
     const [imageSum, setImageSum] = useState(null);
     const [mainPhoto, setMainPhoto] = useState('flex');
     const [advanced, setAdvanced] = useState(false);
@@ -22,24 +24,56 @@ const NewPost = () => {
     const [size, setSize] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
+    const [category, setCategory] = useState('');
+    const [tags, setTags] = useState('');
+    const [productCondition, setProductCondition] = useState('');
+    const isBid = false;
+
 
 
     async function Submit() {
-        // needs:       userId,
-        //       productName,
-        //       productDescription,
-        //       productPrice,
-        //       productMedia,
-        //       productCategory,
-        //       onBid,
-        //       productCondition,
-        //       tags,
-        console.log("hey");
+        const userId = await AsyncStorage.getItem('user');
+        console.log("----------------------------------hey");
+        console.log(await AsyncStorage.getItem('user'));
         console.log(productName, size, price, description)
-        // const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/createproduct`,{
-        //     productName, productDescription: description, productPrice: price, productMedia: image,
-        // })
+        try {
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/product/createproduct`, {
+                productName,
+                productDescription: description,
+                productPrice: price,
+                productMedia: [
+                    {
+                        url: image,
+                        type: 'image/jpeg'
+                    }
+                ],
+                userId: JSON.parse(await AsyncStorage.getItem('user')),
+                onBid: isBid,
+                productCategory: category,
+                productCondition: productCondition,
+                tags: tags,
+            })
+            console.log(res.data);
+            resetInputs();
+
+        } catch (error) {
+            console.log(error);
+        }
+
+
     }
+
+    function resetInputs() {
+        setProductName('');
+        setSize('');
+        setPrice('');
+        setDescription('');
+        setCategory('');
+        setTags('');
+        setProductCondition('');
+        setImage();
+    }
+
     const styles = StyleSheet.create({
         header: {
             flex: 1,
@@ -181,10 +215,10 @@ const NewPost = () => {
             quality: 1,
         })
 
-        console.log(result);
+        console.log(result.assets[0].uri);
 
         if (result) {
-            setImage(result.assets[0].uri)
+            setImage(result.assets[0].uri);
         }
     }
 
@@ -199,7 +233,7 @@ const NewPost = () => {
         console.log(result);
 
         if (result) {
-            setImage(prev => [...prev, result.assets[0].uri]);
+            setImage(prev => [{ prev }, result.assets[0].uri]);
         }
     }
     const chooseManyPhotosFromLibrary = async () => {
@@ -214,7 +248,7 @@ const NewPost = () => {
         console.log(result);
 
         if (result) {
-            setImage(prev => [...prev, result.assets[0].uri]);
+            setImage(prev => [{ prev }, result.assets[0].uri]);
         }
     }
 
@@ -250,7 +284,7 @@ const NewPost = () => {
                         }
                         {image &&
                             <View className='flex-[3] w-1/2 flex-col justify-evenly items-center'>
-                                <Image source={{uri: image}} className='flex-[3] h-20 w-20 rounded-md'/>
+                                <Image source={{ uri: image }} className='flex-[3] h-20 w-20 rounded-md' />
                                 <TouchableOpacity className='flex-[1] w-full flex-row justify-center items-center' onPress={() => { setImage(null) }}>
                                     <MaterialCommunityIcons name="delete-outline" size={16} color="black" />
                                     <Text className='text-xs'>Delete Photo</Text>
@@ -271,6 +305,7 @@ const NewPost = () => {
                                     placeholderTextColor="black"
                                     maxLength={99}
                                     multiline={true}
+                                    value={productName}
                                     onChangeText={(text) => setProductName(text)}
                                 />
                             </View>
@@ -281,6 +316,7 @@ const NewPost = () => {
                                     placeholder="Size"
                                     placeholderTextColor="black"
                                     enablesReturnKeyAutomatically={true}
+                                    value={size}
                                     onChangeText={(text) => setSize(text)}
                                 />
                             </View>
@@ -292,6 +328,7 @@ const NewPost = () => {
                                     keyboardType="numeric"
                                     placeholderTextColor="black"
                                     maxLength={4}
+                                    value={price}
                                     enablesReturnKeyAutomatically={true}
                                     onChangeText={(text) => setPrice(text)}
                                 />
@@ -307,10 +344,47 @@ const NewPost = () => {
                                             placeholderTextColor="black"
                                             multiline={true}
                                             maxLength={400}
+                                            value={description}
                                             onChangeText={(text) => setDescription(text)}
                                         />
                                     </View>
-                                    <View className='w-full h-32 flex-col items-center justify-evenly'>
+                                    <View className='w-full h-24 flex-row justify-evenly items-center'>
+                                        <MaterialIcons name="category" size={24} color="black" />
+                                        <TextInput
+                                            className='w-3/5 h-14 border rounded-md px-2 justify-start items-start border-gray-300'
+                                            placeholder="Category"
+                                            placeholderTextColor="black"
+                                            multiline={true}
+                                            maxLength={50}
+                                            value={category}
+                                            onChangeText={(text) => setCategory(text)}
+                                        />
+                                    </View>
+                                    <View className='w-full h-24 flex-row justify-evenly items-center'>
+                                        <Entypo name="new" size={24} color="black" />
+                                        <TextInput
+                                            className='w-3/5 h-14 border rounded-md px-2 justify-start items-start border-gray-300'
+                                            placeholder="Condition"
+                                            placeholderTextColor="black"
+                                            multiline={true}
+                                            maxLength={400}
+                                            value={productCondition}
+                                            onChangeText={(text) => setProductCondition(text)}
+                                        />
+                                    </View>
+                                    <View className='w-full h-24 flex-row justify-evenly items-center'>
+                                        <Fontisto name="hashtag" size={24} color="black" />
+                                        <TextInput
+                                            className='w-3/5 h-14 border rounded-md px-2 justify-start items-start border-gray-300'
+                                            placeholder="Tags"
+                                            placeholderTextColor="black"
+                                            multiline={true}
+                                            maxLength={60}
+                                            value={tags}
+                                            onChangeText={(text) => setTags(text)}
+                                        />
+                                    </View>
+                                    {/* <View className='w-full h-32 flex-col items-center justify-evenly'>
                                         <Text className='text-lg'>Additional Photos</Text>
                                         <TouchableOpacity className='h-16 w-16 items-center justify-center rounded-lg bg-cyan-800' onPressOut={() => pickAdditionalImages()}>
                                             <FontAwesome5 name="images" size={24} color="white" />
@@ -319,7 +393,7 @@ const NewPost = () => {
                                     </View>
                                     {image?.length &&
                                         <View className='w-full h-56 flex-row items-center justify-evenly'>
-                                            <View className='w-14 h-24 bg-slate-500'>
+                                            <View className='w-14 h-20 bg-slate-500'>
                                                 <View className='w-full h-full'>
                                                     {
                                                         image[1] &&
@@ -327,7 +401,7 @@ const NewPost = () => {
                                                     }
                                                 </View>
                                             </View>
-                                            <View className='w-14 h-24 bg-slate-500'>
+                                            <View className='w-14 h-20 bg-slate-500'>
                                                 <View className='w-full h-full'>
                                                     {
                                                         image[2] &&
@@ -335,7 +409,7 @@ const NewPost = () => {
                                                     }
                                                 </View>
                                             </View>
-                                            <View className='w-14 h-24 bg-slate-500'>
+                                            <View className='w-14 h-20 bg-slate-500'>
                                                 <View className='w-full h-full'>
                                                     {
                                                         image[3] &&
@@ -343,7 +417,7 @@ const NewPost = () => {
                                                     }
                                                 </View>
                                             </View>
-                                            <View className='w-14 h-24 bg-slate-500'>
+                                            <View className='w-14 h-20 bg-slate-500'>
                                                 <View className='w-full h-full'>
                                                     {
                                                         image[4] &&
@@ -351,7 +425,7 @@ const NewPost = () => {
                                                     }
                                                 </View>
                                             </View>
-                                            <View className='w-14 h-24 bg-slate-500'>
+                                            <View className='w-14 h-20 bg-slate-500'>
                                                 <View className='w-full h-full'>
                                                     {
                                                         image[5] &&
@@ -359,8 +433,8 @@ const NewPost = () => {
                                                     }
                                                 </View>
                                             </View>
-                                        </View>
-                                    }
+                                        </View> */}
+                                    {/* } */}
                                 </View>
                             }
                         </View>
