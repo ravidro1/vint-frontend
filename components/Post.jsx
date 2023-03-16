@@ -85,7 +85,7 @@ const Post = (props) => {
                     <MaterialIcons name="favorite" style={styles.iconShadow} size={40} color={like} />
                 </TouchableOpacity>
                 <TouchableOpacity className='bg-transparent' onPress={() => {
-                    navigation.navigate('Details', { post: post })
+                    navigation.navigate('Details', { result: post })
                     Haptics.selectionAsync()
                 }}>
                     <Ionicons name="eye" style={styles.iconShadow} size={40} color="white" />

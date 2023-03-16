@@ -89,6 +89,7 @@ const NewPost = () => {
                 ],
                 userId: JSON.parse(await AsyncStorage.getItem('user')),
                 onBid: isBid,
+                size: size,
                 productCategory: CategoryValue,
                 productCondition: ConditionValue,
                 tags: TagsValue,

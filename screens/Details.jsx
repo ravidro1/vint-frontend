@@ -11,6 +11,22 @@ export default function Details({ route, navigation }) {
     console.log('res ', result);
      const image = { uri: result.media[0].url }
     const darkBlue = 'rgb(10, 34, 57)'
+    const createWhatsAppConv = (message, phoneNumber) => {
+        try {
+                const baseUrl = "https://wa.me/";
+                const phoneStr = phoneNumber.toString().replace(/\D/g, ""); // remove all non-numeric characters from the phone number
+                const messageStr = encodeURIComponent(message);
+                const link = `${baseUrl}${phoneStr}?text=${messageStr}`;
+                console.log(link);
+                
+                return link;
+            }
+        catch (error) {
+            console.log(error);
+            alert('there has been a problem')
+            
+        }
+    }    
     // post.images[0] !== post.img && post.images.unshift(post.img)
     return (
         <View style={{ flex: 1, height: Dimensions.get('window').height - 100 }} className='flex-1 justify-around items-center overflow-scroll bg-slate-100'>
@@ -21,7 +37,7 @@ export default function Details({ route, navigation }) {
             <Pressable onPress={() => navigation.goBack()} className='absolute left-6 top-11'>
                 <Ionicons name="arrow-back-circle" size={40} color={darkBlue} />
             </Pressable>
-            <Pressable onPress={() => navigation.goBack()} className='absolute right-6 top-11'>
+            <Pressable onPress={() => createWhatsAppConv('Hello' , '0544465103')} className='absolute right-6 top-11'>
                 <Fontisto name="whatsapp" size={34} color={darkBlue} />
             </Pressable>
             <View className='w-[85vw]'>
