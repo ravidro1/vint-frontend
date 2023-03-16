@@ -65,53 +65,48 @@ const NewPost = () => {
         { label: 'Branded', value: 'Branded' },
     ];
 
+async function Submit() {
+    const parts = image.split(".");
+    console.log(parts[parts.length - 1]);
 
-    async function Submit() {
-        console.log(image);
-        console.log(TagsValue);
-        console.log(ConditionValue);
-        console.log(CategoryValue);
-        // console.log(base64Image);
-        console.log(await AsyncStorage.getItem('user'));
-        // console.log(await Share.shareAsync(image));
-        console.log(productName, size, price, description, image)
-        try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/product/createproduct`, {
+    try {
+        const res = await axios.post(
+            `${process.env.REACT_APP_BACKEND_URL}/product/createproduct`,
+            {
                 productName,
                 productDescription: description,
                 productPrice: price,
-                productMedia: [
-                    {
-                        url: image,
-                        type: `image`,
-                        size: imageSize
-                    }
-                ],
-                userId: JSON.parse(await AsyncStorage.getItem('user')),
+                productMedia: {
+                    data: base64Image,
+                    mimetype: `image/${parts[parts?.length - 1]}`,
+                    size: imageSize,
+                    typeImageOrVideo: "image"
+                },
+                userId: JSON.parse(await AsyncStorage.getItem("user")),
                 onBid: isBid,
-                size: size,
+                size,
                 productCategory: CategoryValue,
                 productCondition: ConditionValue,
                 tags: TagsValue,
-            })
-            console.log(res.data);
-            resetInputs();
-
-        } catch (error) {
-            console.log(error);
-        }
+            }
+        );
 
 
+        const product = res.data.product;
+        resetInputs();
+    } catch (error) {
+        console.log(error);
     }
+}
 
     function resetInputs() {
         setProductName();
         setSize();
         setPrice();
         setDescription();
-        setTagsValue();
-        setCategoryValue();
-        setConditionValue();
+        setTagsValue(null);
+        setCategoryValue(null);
+        setConditionValue(null);
         setImage();
     }
 
@@ -271,11 +266,11 @@ const NewPost = () => {
         console.log(result);
 
         if (result) {
-            let base64Image = await FileSystem.readAsStringAsync(result.assets[0].uri, {
+            let base64Img = await FileSystem.readAsStringAsync(result.assets[0].uri, {
                 encoding: FileSystem.EncodingType.Base64,
             });
             setImage(result.assets[0].uri);
-            setBase64Image(base64Image);
+            setBase64Image(base64Img);
             setImageSize(result.assets[0].fileSize);
         }
     }
