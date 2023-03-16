@@ -63,18 +63,19 @@ export default function Details({ route, navigation }) {
                 <View className='flex flex-row justify-around mb-4 mt-6'>
                     <View className='flex flex-row w-1/3'>
                         <FontAwesome5 name="user-alt" size={24} color={darkBlue} />
-                        <Text className='font-semibold text-xl ml-2'>{sellerName}</Text>
+                        <Text className='font-semibold text-lg ml-2'>{sellerName}</Text>
                     </View>
                     <View className='flex flex-row'>
-                        <Entypo name="price-tag" size={30} color={darkBlue} />
-                        <Text className='text-xl font-semibold text-black mr-5 ml-2'>{result.size}</Text>
+                        <Entypo name="price-tag" size={24} color={darkBlue} />
+                        <Text className='text-lg font-semibold text-black mr-5 ml-2'>{result.size}</Text>
                     </View>
                     <View className='flex flex-row'>
-                        <FontAwesome5 name="coins" size={30} color={darkBlue} />
-                        <Text className='text-xl font-semibold text-black ml-2'>{result.price}</Text>
+                        <FontAwesome5 name="coins" size={24} color={darkBlue} />
+                        <Text className='text-lg font-semibold text-black ml-2'>{result.price}</Text>
                     </View>
                 </View>
-                <ScrollView className='mb-5 h-[10vh]'>
+                <ScrollView className='mb-5 px-2 h-[10vh]'>
+                    <Text className='text-lg font-semibold'>Description:</Text>
                     <Text>{result.description}</Text>
                 </ScrollView>
             </View>
