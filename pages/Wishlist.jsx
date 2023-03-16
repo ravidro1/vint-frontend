@@ -1,28 +1,16 @@
-import { View, Text, SafeAreaView, FlatList, Dimensions, Image } from 'react-native'
-import React, {useContext, useEffect, useState} from 'react'
+import { View, Text, SafeAreaView, FlatList, Dimensions, Image, TouchableOpacity } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { AppContext } from '../components/AppContext';
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 
 
 const Wishlist = () => {
-    // const { wishList } = useContext(AppContext)
-    const [wishList,setWishList] = useState([])
-    useEffect(()=>{
-        async function getWishList(){
-            let userID = await AsyncStorage.getItem("user")
-            console.log(userID)
-            axios.post(process.env.REACT_APP_BACKEND_URL + '/user/getWishList', {userID: JSON.parse(userID)}).then((wish)=>{
-                if (wish.data.wishList){
-                setWishList(wish.data.wishList)
-                }
-                console.log(" this is wishlist", wish.data.wishList)
-            })
-        }
-        getWishList()
-    },[])
+
+
+    const { wishList } = useContext(AppContext)
+
     const styles = StyleSheet.create({
         container: {
             height: Dimensions.get('screen').height - 100,
@@ -70,70 +58,49 @@ const Wishlist = () => {
         }
     });
 
-    const tempArray = [
-        {
-            productName: 't-shirt',
-            price: '99$'
-        },
-        {
-            productName: 'pants',
-            price: '199$'
-        },
-        {
-            productName: 'Nike t-shirt',
-            price: '79$'
-        },
-        {
-            productName: 'Balenciaga t-shirt',
-            price: '399$'
-        },
-        {
-            productName: 'Diesel Jeans',
-            price: '299$'
-        },
-        {
-            productName: 'fleece Jacket',
-            price: '149$'
-        },
-        {
-            productName: 'polo shirt',
-            price: '34$'
-        },
-        {
-            productName: 'Adidas t-shirt',
-            price: '69$'
-        },
-        {
-            productName: 'jacket',
-            price: '119$'
-        },
-    ]
-
-    const formatData = (dataList, numColumns) => {
-        const totalRows = Math.floor(dataList.length / numColumns)
-        let totalLastRow = dataList.length - (totalRows * numColumns)
-
-        while (totalLastRow !== 0 && totalLastRow !== numColumns) {
-            dataList.push({ key: 'blank', empty: true });
-            totalLastRow++
-        }
-        return dataList
-    }
 
     const renderItem = ({ item, index }) => {
-        if (item.empty) {
+        if (wishList?.userProducts?.length % 2 !== 0 && index === wishList?.userProducts?.length - 1) {
             return (
-                <View style={styles.invisible}>
+                <View className='w-full flex-row justify-start items-center px-1'>
+                    <TouchableOpacity key={index} className='w-[184] h-64 m-1 bg-slate-300 rounded-lg'>
+                        <View className='flex-[4] w-full'>
+                            <Image source={{ uri: item.media[0].url }} className='h-full w-full rounded-t-lg' />
+                        </View>
+                        <View className='flex-[1] flex-col items-start justify-evenly px-2'>
+                            <View className='w-full flex-row justify-start items-center'>
+                                <Ionicons name="ios-shirt" size={12} color="black" />
+                                <Text style={{ color: 'Black', fontSize: 10, fontWeight: 500, marginLeft: 4 }}>{item.name}</Text>
+                            </View>
+                            <View className='w-full flex-row justify-start items-center'>
+                                <FontAwesome5 name="coins" size={12} color="black" />
+                                <Text style={{ color: 'Black', fontSize: 10, fontWeight: 500, marginLeft: 4 }}>{item.price} ₪</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             )
         }
-        return (
-            <View key={index} style={styles.post}>
-                <Image source={item.media[0].url}></Image>
-                <Text style={{ color: 'black' }}>{item.name}</Text>
-                <Text style={{ color: 'black' }}>{item.price[0]}</Text>
-            </View>
-        )
+        else {
+            return (
+                <TouchableOpacity key={index} className='w-[184] h-64 m-1 bg-slate-300 rounded-lg'>
+                    <View className='flex-[4] w-full'>
+                        <Image source={{ uri: item.media[0].url }} className='h-full w-full rounded-t-lg' />
+                    </View>
+                    <View className='flex-[1] flex-col items-start justify-evenly px-2'>
+                        <View className='w-full flex-row justify-start items-center'>
+                            <Ionicons name="ios-shirt" size={12} color="black" />
+                            <Text style={{ color: 'Black', fontSize: 10, fontWeight: 500, marginLeft: 4 }}>{item.name}</Text>
+                        </View>
+                        <View className='w-full flex-row justify-start items-center'>
+                            <FontAwesome5 name="coins" size={12} color="black" />
+                            <Text style={{ color: 'Black', fontSize: 10, fontWeight: 500, marginLeft: 4 }}>{item.price} ₪</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+            )
+        }
+
     }
 
     return (
@@ -145,7 +112,7 @@ const Wishlist = () => {
             </View>
             <FlatList
                 style={styles.list}
-                data={formatData(wishList, 2)}
+                data={wishList}
                 renderItem={renderItem}
                 numColumns='2'
             >
