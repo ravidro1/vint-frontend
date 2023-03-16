@@ -10,6 +10,7 @@ const Wishlist = () => {
 
 
     const { wishList } = useContext(AppContext)
+
     const styles = StyleSheet.create({
         container: {
             height: Dimensions.get('screen').height - 100,
@@ -50,7 +51,7 @@ const Wishlist = () => {
             alignItems: 'center',
             justifyContent: 'center',
             height: 140,
-            backgroundColor: '#626262',
+            // backgroundColor: '#626262',
             margin: 2,
             borderRadius: 4,
             backgroundColor: 'transparent',
@@ -99,6 +100,7 @@ const Wishlist = () => {
                 </TouchableOpacity>
             )
         }
+
     }
 
     return (
