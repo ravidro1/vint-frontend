@@ -4,20 +4,23 @@ import * as Haptics from "expo-haptics";
 import { Ionicons, Entypo, FontAwesome, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AppContext } from "./AppContext";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Post = (props) => {
     const [fav, setFav] = useState('white')
     const { wishList, setWishList } = useContext(AppContext)
     const { post, navigation } = props
-    const [image,setImage] = useState(false)
-   useEffect(()=> {
-    setImage()
-       console.log(image)
-   },[])
+    // const [image,setImage] = useState(false)
+   // useEffect(()=> {
+   //  setImage()
+   //     console.log(image)
+   // },[])
 
 
-    const addToWishList = (post) => {
+    const addToWishList = async (post) => {
         const index = wishList.indexOf(post);
+        console.log("---------------------------------",post)
         if (index !== -1) {
             wishList.splice(index, 1)
             setFav('white')
@@ -27,6 +30,9 @@ const Post = (props) => {
             setFav('rgb(14, 165, 233)')
             Haptics.notificationAsync(Haptics.ImpactFeedbackStyle.Success)
         }
+        const userID = await AsyncStorage.getItem("user")
+        const res = await axios.post(process.env.REACT_APP_BACKEND_URL + '/user/addToWishList', {userID: JSON.parse(userID), newItemWishList: post._id})
+        console.log("this is res for add to wish list ",res.data)
     }
     const styles = StyleSheet.create({
         iconShadow: {

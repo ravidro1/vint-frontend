@@ -20,3 +20,4 @@ package-lock.json
 .metro-health-check*
 *.xml
 .idea/workspace.xml
+.env

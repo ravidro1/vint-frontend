@@ -1,12 +1,28 @@
 import { View, Text, SafeAreaView, FlatList, Dimensions, Image } from 'react-native'
-import React, { useContext } from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import { StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { AppContext } from '../components/AppContext';
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const Wishlist = () => {
-    const { wishList } = useContext(AppContext)
+    // const { wishList } = useContext(AppContext)
+    const [wishList,setWishList] = useState([])
+    useEffect(()=>{
+        async function getWishList(){
+            let userID = await AsyncStorage.getItem("user")
+            console.log(userID)
+            axios.post(process.env.REACT_APP_BACKEND_URL + '/user/getWishList', {userID: JSON.parse(userID)}).then((wish)=>{
+                if (wish.data.wishList){
+                setWishList(wish.data.wishList)
+                }
+                console.log(" this is wishlist", wish.data.wishList)
+            })
+        }
+        getWishList()
+    },[])
     const styles = StyleSheet.create({
         container: {
             height: Dimensions.get('screen').height - 100,
@@ -47,7 +63,7 @@ const Wishlist = () => {
             alignItems: 'center',
             justifyContent: 'center',
             height: 140,
-            backgroundColor: '#626262',
+            // backgroundColor: '#626262',
             margin: 2,
             borderRadius: 4,
             backgroundColor: 'transparent',
@@ -113,8 +129,9 @@ const Wishlist = () => {
         }
         return (
             <View key={index} style={styles.post}>
-                <Text style={{ color: 'black' }}>{item.seller}</Text>
-                <Text style={{ color: 'black' }}>{item.price}</Text>
+                <Image source={item.media[0].url}></Image>
+                <Text style={{ color: 'black' }}>{item.name}</Text>
+                <Text style={{ color: 'black' }}>{item.price[0]}</Text>
             </View>
         )
     }

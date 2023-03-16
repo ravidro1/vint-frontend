@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="27ff9d48-c22b-446f-a731-6eb150866a54" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../vint.com-backend/controllers/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/../vint.com-backend/controllers/userController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/Post.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Post.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/Feed.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Feed.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/FollowingFeed.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/FollowingFeed.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/Wishlist.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/Wishlist.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
