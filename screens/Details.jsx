@@ -1,32 +1,51 @@
-import { Dimensions, Image, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
+import { Dimensions, Image, Linking, Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { AppContext } from "../components/AppContext";
 
 import { Ionicons, FontAwesome5, Entypo, Fontisto } from '@expo/vector-icons';
+import axios from "axios";
 
 export default function Details({ route, navigation }) {
     const { post, result } = route.params
-    console.log('res ', result);
-     const image = { uri: result.media[0].url }
-    const darkBlue = 'rgb(10, 34, 57)'
-    const createWhatsAppConv = (message, phoneNumber) => {
-        try {
-                const baseUrl = "https://wa.me/";
-                const phoneStr = phoneNumber.toString().replace(/\D/g, ""); // remove all non-numeric characters from the phone number
-                const messageStr = encodeURIComponent(message);
-                const link = `${baseUrl}${phoneStr}?text=${messageStr}`;
-                console.log(link);
-                
-                return link;
+    const [sellerName, setSellerName] = useState('');
+    const [sellerPhone, setSellerPhone] = useState('');
+    const [whatsAppLink, setWhatsAppLink] = useState('');
+    
+    useEffect(() => {
+        console.log(result);
+
+        const getSeller = async () => {
+            try {
+                let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/getUserById`, { userID: result.seller })
+                console.log('seller ', res.data.user);
+                setSellerName(res.data.user.name)
+                setSellerPhone(res.data.user.phone.toString())
+            } catch (error) {
+                console.log(error);
             }
-        catch (error) {
-            console.log(error);
-            alert('there has been a problem')
-            
         }
-    }    
+        getSeller()
+        const createWhatsAppConv = () => {
+            try {
+                const baseUrl = "https://wa.me/";
+                const phoneStr = sellerPhone.replace(/\D/g, ""); // remove all non-numeric characters from the phone number
+                const messageStr = encodeURIComponent('Hello');
+                const link = `${baseUrl}${phoneStr}?text=${messageStr}`;
+                setWhatsAppLink(link)
+            }
+            catch (error) {
+                console.log('whatsapp error ' , error);
+            }
+        }
+        createWhatsAppConv()
+    }, []);
+    console.log(sellerPhone);
+    
+
+    const image = { uri: result.media[0].url }
+    const darkBlue = 'rgb(10, 34, 57)'
     // post.images[0] !== post.img && post.images.unshift(post.img)
     return (
         <View style={{ flex: 1, height: Dimensions.get('window').height - 100 }} className='flex-1 justify-around items-center overflow-scroll bg-slate-100'>
@@ -37,14 +56,14 @@ export default function Details({ route, navigation }) {
             <Pressable onPress={() => navigation.goBack()} className='absolute left-6 top-11'>
                 <Ionicons name="arrow-back-circle" size={40} color={darkBlue} />
             </Pressable>
-            <Pressable onPress={() => createWhatsAppConv('Hello' , '0544465103')} className='absolute right-6 top-11'>
+            <Pressable onPress={() => Linking.openURL(whatsAppLink)} className='absolute right-6 top-11'>
                 <Fontisto name="whatsapp" size={34} color={darkBlue} />
             </Pressable>
             <View className='w-[85vw]'>
                 <View className='flex flex-row justify-around mb-4 mt-6'>
                     <View className='flex flex-row w-1/3'>
                         <FontAwesome5 name="user-alt" size={24} color={darkBlue} />
-                        <Text className='font-semibold text-xl ml-2'>{result.seller}</Text>
+                        <Text className='font-semibold text-xl ml-2'>{sellerName}</Text>
                     </View>
                     <View className='flex flex-row'>
                         <Entypo name="price-tag" size={30} color={darkBlue} />
