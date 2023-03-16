@@ -26,13 +26,8 @@ export default function FollowingFeed() {
         return (
             <View key={index} style={{ flex: 1, height: Dimensions.get('window').height - 200 }}>
                 <Post
-<<<<<<< Updated upstream
-                    post={followingArray[index]}
-                    navigation={navigation} 
-=======
                     post={followingFeed[index]}
                     navigation={navigation}
->>>>>>> Stashed changes
                 />
             </View>
         )

@@ -12,7 +12,6 @@ export default function Feed() {
     const [feed, setFeed] = useState([])
     const [reload, setReload] = useState(false)
 
-
     useEffect(() => {
         const getProducts = async () => {
             try {

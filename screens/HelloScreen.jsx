@@ -6,16 +6,16 @@ import Vgif from '../assets/V.gif'
 
 export default function HelloScreen({ navigation }) {
     const [loggedIn, setLoggedIn] = useState(false);
-    useEffect(() => {
+    useEffect(() => {        
         const checkToken = async () => {
             try {
                 const tempToken = await AsyncStorage.getItem("token");
                 const tempUserID = await AsyncStorage.getItem("user");
 
-                const token = JSON.parse(tempToken);
-                const userID = JSON.parse(tempUserID);
+                const token = await JSON.parse(tempToken);
+                const userID = await JSON.parse(tempUserID);
 
-                console.log(token, userID);
+                console.log('hhhh' , token, userID);
 
                 const res = await axios.post(
                     `${process.env.REACT_APP_BACKEND_URL}/user/verifyToken`,
@@ -30,7 +30,6 @@ export default function HelloScreen({ navigation }) {
 
                 if (isTokenValid) {
                     navigation.navigate('Home')
-                    console.log('hpo');
                 }
             } catch (error) {
                 navigation.navigate('Landing')
