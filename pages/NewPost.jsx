@@ -65,42 +65,37 @@ const NewPost = () => {
         { label: 'Branded', value: 'Branded' },
     ];
 
-
     async function Submit() {
-        console.log(image);
-        console.log(TagsValue);
-        console.log(ConditionValue);
-        console.log(CategoryValue);
-        // console.log(base64Image);
-        console.log(await AsyncStorage.getItem('user'));
-        // console.log(await Share.shareAsync(image));
-        console.log(productName, size, price, description, image)
-        try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/product/createproduct`, {
-                productName,
-                productDescription: description,
-                productPrice: price,
-                productMedia: [
-                    {
-                        url: image,
-                        type: `image`,
-                        size: imageSize
-                    }
-                ],
-                userId: JSON.parse(await AsyncStorage.getItem('user')),
-                onBid: isBid,
-                productCategory: CategoryValue,
-                productCondition: ConditionValue,
-                tags: TagsValue,
-            })
-            console.log(res.data);
-            resetInputs();
+        const parts = image.split(".");
+        console.log(parts[parts.length - 1]);
 
+        try {
+            const res = await axios.post(
+                `${process.env.REACT_APP_BACKEND_URL}/product/createproduct`,
+                {
+                    productName,
+                    productDescription: description,
+                    productPrice: price,
+                    productMedia: {
+                        data: base64Image,
+                        mimetype: `image/${parts[parts?.length - 1]}`,
+                        size: imageSize,
+                        typeImageOrVideo: "image"
+                    },
+                    userId: JSON.parse(await AsyncStorage.getItem("user")),
+                    onBid: isBid,
+                    productCategory: CategoryValue,
+                    productCondition: ConditionValue,
+                    tags: TagsValue,
+                }
+            );
+
+
+            const product = res.data.product;
+            resetInputs();
         } catch (error) {
             console.log(error);
         }
-
-
     }
 
     function resetInputs() {
@@ -108,9 +103,9 @@ const NewPost = () => {
         setSize();
         setPrice();
         setDescription();
-        setTagsValue();
-        setCategoryValue();
-        setConditionValue();
+        setTagsValue(null);
+        setCategoryValue(null);
+        setConditionValue(null);
         setImage();
     }
 

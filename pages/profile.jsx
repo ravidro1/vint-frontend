@@ -2,83 +2,19 @@ import { View, Text, StyleSheet, Dimensions, FlatList, Pressable, Image, SafeAre
 import { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Modal from 'react-native-modal';
-import { Ionicons } from '@expo/vector-icons';
-
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
+import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const Stack = createNativeStackNavigator();
 
 const Profile = ({ route, navigation }) => {
     const { post } = route.params
-    const [profile, setProfile] = useState('For Sale');
     const [modalVisible, setModalVisible] = useState(false);
+    const [details, setDetails] = useState()
+    const [sellerName, setSellerName] = useState('')
 
-    const posts = [
-        {
-            productName: 't-shirt',
-            price: '99$'
-        },
-        {
-            productName: 'pants',
-            price: '199$'
-        },
-        {
-            productName: 'Nike t-shirt',
-            price: '79$'
-        },
-        {
-            productName: 'Balenciaga t-shirt',
-            price: '399$'
-        },
-        {
-            productName: 'Diesel Jeans',
-            price: '299$'
-        },
-        {
-            productName: 'fleece Jacket',
-            price: '149$'
-        },
-        {
-            productName: 'polo shirt',
-            price: '34$'
-        },
-        {
-            productName: 'Adidas t-shirt',
-            price: '69$'
-        },
-        {
-            productName: 'jacket',
-            price: '119$'
-        },
-        {
-            productName: 'Adidas t-shirt',
-            price: '69$'
-        },
-        {
-            productName: 'jacket',
-            price: '119$'
-        },
-        {
-            productName: 'Adidas t-shirt',
-            price: '69$'
-        },
-        {
-            productName: 'jacket',
-            price: '119$'
-        },
-        {
-            productName: 'Adidas t-shirt',
-            price: '69$'
-        },
-        {
-            productName: 'jacket',
-            price: '119$'
-        },
-        {
-            productName: 'jacket',
-            price: '119$'
-        },
-    ]
 
     const followers = [
         {
@@ -315,54 +251,79 @@ const Profile = ({ route, navigation }) => {
             backgroundColor: '#ffffff',
         }
     });
-
-    const [forSaleTextStyle, setForSaleTextStyle] = useState('');
-    const [historyTextStyle, setHistoryTextStyle] = useState('');
+    console.log(post.seller);
 
     useEffect(() => {
-        setForSaleTextStyle(styles.styledView);
-        setHistoryTextStyle('');
+
+        async function load() {
+            console.log(post.seller)
+            const userid = (post.seller)
+            axios.post(process.env.REACT_APP_BACKEND_URL + "/user/userinfo", { userID: userid }).then((res) => {
+                setDetails(res.data)
+                console.log('--------hey');
+                console.log(res.data)
+                setSellerName(res.data.name)
+
+            });
+        }
+
+        load()
+
     }, [])
 
 
-    function setProfileType(type) {
-        if (type === 'For Sale') {
-            setProfile('For Sale');
-            setForSaleTextStyle(styles.styledView);
-            setHistoryTextStyle('');
 
-        } else if (type === 'History') {
-            setProfile('History');
-            setHistoryTextStyle(styles.styledView);
-            setForSaleTextStyle('');
-        }
-    }
 
-    const formatData = (dataList, numColumns) => {
-        const totalRows = Math.floor(dataList.length / numColumns)
-        let totalLastRow = dataList.length - (totalRows * numColumns)
-
-        while (totalLastRow !== 0 && totalLastRow !== numColumns) {
-            dataList.push({ key: 'blank', empty: true });
-            totalLastRow++
-        }
-        return dataList
-    }
-
-    const renderPosts = ({ item, index }) => {
-        if (item.empty) {
+    const renderItem = ({ item, index }) => {
+        if (details?.userProducts?.length % 2 !== 0 && index === details?.userProducts?.length - 1) {
             return (
-                <View style={styles.invisible}>
+                <View className='w-full flex-row justify-start items-center px-1'>
+                    <TouchableOpacity key={index} className='w-[184] h-64 m-1 bg-slate-300 rounded-lg'>
+                        <View className='flex-[4] w-full'>
+                            <Image source={{ uri: item.media[0].url }} className='h-full w-full rounded-t-lg' />
+                        </View>
+                        <View className='flex-[1] flex-col items-start justify-evenly px-2'>
+                            <View className='w-full flex-row justify-start items-center'>
+                                <Ionicons name="ios-shirt" size={12} color="black" />
+                                <Text style={{ color: 'Black', fontSize: 10, fontWeight: 500, marginLeft: 4 }}>{item.name}</Text>
+                            </View>
+                            <View className='w-full flex-row justify-start items-center'>
+                                <FontAwesome5 name="coins" size={12} color="black" />
+                                <Text style={{ color: 'Black', fontSize: 10, fontWeight: 500, marginLeft: 4 }}>{item.price} ₪</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             )
         }
-        return (
-            <View key={index} style={styles.post}>
-                <Text style={{ color: 'white' }}>{item.productName}</Text>
-                <Text style={{ color: 'white' }}>{item.price}</Text>
-            </View>
-        )
+        else if (details?.userProducts?.length === 0) {
+            return (
+                <View className='w-full h-20 justify-center items-center'>
+                    <Text>No Posts Yet</Text>
+                </View>
+            )
+        }
+        else {
+            return (
+                <TouchableOpacity key={index} className='w-[184] h-64 m-1 bg-slate-300 rounded-lg'>
+                    <View className='flex-[4] w-full'>
+                        <Image source={{ uri: item.media[0].url }} className='h-full w-full rounded-t-lg' />
+                    </View>
+                    <View className='flex-[1] flex-col items-start justify-evenly px-2'>
+                        <View className='w-full flex-row justify-start items-center'>
+                            <Ionicons name="ios-shirt" size={12} color="black" />
+                            <Text style={{ color: 'Black', fontSize: 10, fontWeight: 500, marginLeft: 4 }}>{item.name}</Text>
+                        </View>
+                        <View className='w-full flex-row justify-start items-center'>
+                            <FontAwesome5 name="coins" size={12} color="black" />
+                            <Text style={{ color: 'Black', fontSize: 10, fontWeight: 500, marginLeft: 4 }}>{item.price} ₪</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+            )
+        }
     }
+
     const renderFollowers = ({ item, index }) => {
         if (item.empty) {
             return (
@@ -390,7 +351,7 @@ const Profile = ({ route, navigation }) => {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name="arrow-back-circle" size={30} color="white" />
                 </TouchableOpacity>
-                <Text className='ml-4' style={styles.topBarText}>{post.seller}</Text>
+                <Text className='ml-4' style={styles.topBarText}>{sellerName}</Text>
             </View>
             <View style={styles.profileDetails}>
                 <View style={styles.profileDetailsTop}>
@@ -402,7 +363,7 @@ const Profile = ({ route, navigation }) => {
                         </View>
                         <View style={styles.numbersText}>
                             <Text style={styles.profileDetailsBottomText}>Posts</Text>
-                            <Text style={styles.profileDetailsBottomText}>{posts.length}</Text>
+                            <Text style={styles.profileDetailsBottomText}>{details?.userProducts?.length}</Text>
                         </View>
                         <TouchableOpacity style={styles.numbersText} onPress={() => toggleModal()}>
                             <Text style={styles.profileDetailsBottomText}>Followers</Text>
@@ -464,24 +425,14 @@ const Profile = ({ route, navigation }) => {
                     <TouchableOpacity className='bg-white h-8 w-1/2 rounded-md flex justify-center items-center'><Text className='font-bold text-sky-900'>Follow</Text></TouchableOpacity>
                 </View>
                 <View style={styles.profileDetailsBottom}>
-                    <Pressable style={styles.pressableArea} onPress={() => setProfileType('For Sale')}>
-                        <View style={forSaleTextStyle}>
-                            <Text style={styles.profileDetailsBottomText}>For Sale</Text>
-                        </View>
-                    </Pressable>
-                    <View style={styles.border}></View>
-                    <Pressable style={styles.pressableArea} onPress={() => setProfileType('History')}>
-                        <View style={historyTextStyle}>
-                            <Text style={styles.profileDetailsBottomText}>History</Text>
-                        </View>
-                    </Pressable>
+                    <Text className='text-4xl font-semibold text-slate-100'>Closet</Text>
                 </View>
             </View>
             <FlatList
                 style={styles.postsContainer}
-                data={formatData(posts, 3)}
-                renderItem={renderPosts}
-                numColumns='3'
+                data={details?.userProducts}
+                renderItem={renderItem}
+                numColumns='2'
             >
             </FlatList>
         </View>
