@@ -66,7 +66,6 @@ const Post = (props) => {
         like === 'white'? setLike('red') : setLike('white')
         Haptics.notificationAsync(Haptics.ImpactFeedbackStyle.Success)
     }
-    console.log("this is post", post)
     return (
         <View style={{ flex: 1, height: Dimensions.get('window').height - 100 }} className='flex justify-center overflow-scroll border-b-2 border-b-black'>
             <Pressable onPress={handleDoublePress}>
