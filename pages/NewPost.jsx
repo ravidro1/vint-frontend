@@ -65,7 +65,6 @@ const NewPost = () => {
         { label: 'Branded', value: 'Branded' },
     ];
 
-
 async function Submit() {
     const parts = image.split(".");
     console.log(parts[parts.length - 1]);
@@ -105,9 +104,9 @@ async function Submit() {
         setSize();
         setPrice();
         setDescription();
-        setTagsValue();
-        setCategoryValue();
-        setConditionValue();
+        setTagsValue(null);
+        setCategoryValue(null);
+        setConditionValue(null);
         setImage();
     }
 

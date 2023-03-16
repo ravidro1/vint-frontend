@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import Modal from 'react-native-modal';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import EmailSettings from '../components/EmailSettings';
@@ -295,18 +296,46 @@ const MyProfile = () => {
     }
 
     const renderItem = ({ item, index }) => {
-        if (index = details?.length - 1) {
+        if (details?.userProducts?.length % 2 !== 0 && index === details?.userProducts?.length - 1) {
             return (
-                <View style={styles.invisible}>
+                <View className='w-full flex-row justify-start items-center px-1'>
+                    <TouchableOpacity key={index} className='w-[184] h-64 m-1 bg-slate-300 rounded-lg'>
+                        <View className='flex-[4] w-full'>
+                            <Image source={{ uri: item.media[0].url }} className='h-full w-full rounded-t-lg' />
+                        </View>
+                        <View className='flex-[1] flex-col items-start justify-evenly px-2'>
+                            <View className='w-full flex-row justify-start items-center'>
+                                <Ionicons name="ios-shirt" size={12} color="black" />
+                                <Text style={{ color: 'Black', fontSize: 10, fontWeight: 500, marginLeft: 4 }}>{item.name}</Text>
+                            </View>
+                            <View className='w-full flex-row justify-start items-center'>
+                                <FontAwesome5 name="coins" size={12} color="black" />
+                                <Text style={{ color: 'Black', fontSize: 10, fontWeight: 500, marginLeft: 4 }}>{item.price} ₪</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             )
         }
-        return (
-            <View key={index} style={styles.post} postAnimation>
-                <Text style={{ color: 'white' }}>{item.productName}</Text>
-                <Text style={{ color: 'white' }}>{item.price}</Text>
-            </View>
-        )
+        else {
+            return (
+                <TouchableOpacity key={index} className='w-[184] h-64 m-1 bg-slate-300 rounded-lg'>
+                    <View className='flex-[4] w-full'>
+                        <Image source={{ uri: item.media[0].url }} className='h-full w-full rounded-t-lg' />
+                    </View>
+                    <View className='flex-[1] flex-col items-start justify-evenly px-2'>
+                        <View className='w-full flex-row justify-start items-center'>
+                            <Ionicons name="ios-shirt" size={12} color="black" />
+                            <Text style={{ color: 'Black', fontSize: 10, fontWeight: 500, marginLeft: 4 }}>{item.name}</Text>
+                        </View>
+                        <View className='w-full flex-row justify-start items-center'>
+                            <FontAwesome5 name="coins" size={12} color="black" />
+                            <Text style={{ color: 'Black', fontSize: 10, fontWeight: 500, marginLeft: 4 }}>{item.price} ₪</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+            )
+        }
     }
 
     function toggleModal() {
@@ -547,15 +576,13 @@ const MyProfile = () => {
                     <Text className='text-4xl font-semibold text-slate-100'>Closet</Text>
                 </View>
             </View>
-            <ScrollView horizontal pagingEnabled style={styles.postsContainer}>
-                <FlatList
-                    style={styles.postsContainer}
-                    data={details?.userProducts}
-                    renderItem={renderItem}
-                    numColumns='3'
-                >
-                </FlatList>
-            </ScrollView>
+            <FlatList
+                contentContainerStyle={{ height: 'auto', justifyContent: 'start', alignItems: 'center' }}
+                data={details?.userProducts}
+                renderItem={renderItem}
+                numColumns='2'
+            >
+            </FlatList>
             <Modal
                 isVisible={modalVisible}
                 onBackdropPress={() => {
