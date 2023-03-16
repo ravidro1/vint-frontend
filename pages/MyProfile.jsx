@@ -28,21 +28,21 @@ const MyProfile = () => {
     const [settingVisible, setSettingVisible] = useState(false);
     const [settingsType, setSettingsType] = useState('');
     const [profileImage, setProfileImage] = useState(null);
-    const [details,setDetails] = useState()
+    const [details, setDetails] = useState()
 
-    useEffect (()=>{
+    useEffect(() => {
 
-        async function load(){
+        async function load() {
             console.log(await AsyncStorage.getItem("user"))
             const userid = await AsyncStorage.getItem("user")
-            axios.post(process.env.REACT_APP_BACKEND_URL + "/user/userinfo", {userID: JSON.parse(userid)}).then((res)=>{
+            axios.post(process.env.REACT_APP_BACKEND_URL + "/user/userinfo", { userID: JSON.parse(userid) }).then((res) => {
                 setDetails(res.data)
                 console.log(res.data)
 
             });
         }
         load()
-    },[])
+    }, [])
     const posts = [
         {
             productName: 't-shirt',
@@ -282,19 +282,20 @@ const MyProfile = () => {
         }
     }
 
-    const formatData = (dataList, numColumns) => {
-        const totalRows = Math.floor(dataList?.length / numColumns)
-        let totalLastRow = dataList?.length - (totalRows * numColumns)
+    const formatData = (numColumns) => {
+        const tempPosts = details?.userProducts;
+        const totalRows = Math.floor(tempPosts?.length / numColumns)
+        let totalLastRow = tempPosts?.length - (totalRows * numColumns)
 
         while (totalLastRow !== 0 && totalLastRow !== numColumns) {
-            dataList.push({ key: 'blank', empty: true });
+            tempPosts?.push({ key: 'blank', empty: true });
             totalLastRow++
         }
-        return dataList
+        return tempPosts
     }
 
     const renderItem = ({ item, index }) => {
-        if (item.empty) {
+        if (index = details?.length - 1) {
             return (
                 <View style={styles.invisible}>
                 </View>
@@ -497,16 +498,16 @@ const MyProfile = () => {
                                         <View className='h-2 w-1/5 bg-slate-400 rounded-3xl' />
                                     </View>
                                     <ScrollView className='flex-[11] h-5/6 w-full'>
-                                            {
-                                                details?.following.map((item, index) => {
-                                                    return (
-                                                        <View key={index} className='h-20 w-full flex-row items-center justify-between pl-2 pr-4 border border-b-white border-t-white'>
-                                                            <Text style={{ color: 'white' }}>{item.name}</Text>
-                                                            <Image source={{ uri: item.image }} className='h-10 w-10' />
-                                                        </View>
-                                                    )
-                                                })
-                                            }
+                                        {
+                                            details?.following.map((item, index) => {
+                                                return (
+                                                    <View key={index} className='h-20 w-full flex-row items-center justify-between pl-2 pr-4 border border-b-white border-t-white'>
+                                                        <Text style={{ color: 'white' }}>{item.name}</Text>
+                                                        <Image source={{ uri: item.image }} className='h-10 w-10' />
+                                                    </View>
+                                                )
+                                            })
+                                        }
                                     </ScrollView>
                                 </View>
                             </Modal>
@@ -543,32 +544,13 @@ const MyProfile = () => {
                 <View style={styles.profileDetailsMid}>
                 </View>
                 <View style={styles.profileDetailsBottom}>
-                    <Pressable style={styles.pressableArea} onPress={() => setProfileType('For Sale')}>
-                        <View style={forSaleTextStyle}>
-                            <Text style={styles.profileDetailsBottomText}>For Sale</Text>
-                        </View>
-                    </Pressable>
-                    <View style={styles.border}></View>
-                    <Pressable style={styles.pressableArea} onPress={() => setProfileType('History')}>
-                        <View style={historyTextStyle}>
-                            <Text style={styles.profileDetailsBottomText}>History</Text>
-                        </View>
-                    </Pressable>
+                    <Text className='text-4xl font-semibold text-slate-100'>Closet</Text>
                 </View>
             </View>
             <ScrollView horizontal pagingEnabled style={styles.postsContainer}>
                 <FlatList
-                    // className='mr-1'
                     style={styles.postsContainer}
-                    data={formatData(details?.userProducts, 3)}
-                    renderItem={renderItem}
-                    numColumns='3'
-                >
-                </FlatList>
-                <FlatList
-                    // className='ml-1'7654
-                    style={styles.postsContainer}
-                    data={formatData(details?.userProducts, 3)}
+                    data={details?.userProducts}
                     renderItem={renderItem}
                     numColumns='3'
                 >
